@@ -1,0 +1,14 @@
+# Node.js
+node_modules/
+app/node_modules
+server/node_modules
+npm-debug.log
+yarn-error.log
+
+# React.js
+build/
+/.pnp
+.pnp.js
+dist/
+.cache/
+.env
