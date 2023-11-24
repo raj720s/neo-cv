@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import {Link} from 'react-router-dom'
 import './nav.scss'
 
-export default function Headernav() {
+export default function Headernav(props: any) {
   return (
     <Navbar className='navbar' data-bs-theme='dark'>
       <Container>
@@ -14,18 +14,28 @@ export default function Headernav() {
             Neo_CV
           </Link>
         </Navbar.Brand>
-        <Nav className='ml-auto'>
-          <Nav.Link>
-            <Link to={'/login'} className='nav-link'>
-              Login
-            </Link>
-          </Nav.Link>
-          <Nav.Link>
-            <Link to={'/register'} className='nav-link'>
-              Register
-            </Link>
-          </Nav.Link>
-        </Nav>
+        {props.auth ? (
+          <Nav className='ml-auto'>
+            <Nav.Link>
+              <Link to={'/login'} className='nav-link'>
+                Logout
+              </Link>
+            </Nav.Link>
+          </Nav>
+        ) : (
+          <Nav className='ml-auto'>
+            <Nav.Link>
+              <Link to={'/login'} className='nav-link'>
+                Login
+              </Link>
+            </Nav.Link>
+            <Nav.Link>
+              <Link to={'/register'} className='nav-link'>
+                Register
+              </Link>
+            </Nav.Link>
+          </Nav>
+        )}
       </Container>
     </Navbar>
   )

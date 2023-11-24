@@ -7,6 +7,9 @@ import Register from './pages/register/Register'
 import Dashboard from './pages/dashboard/Dashboard'
 import Defaultlayout from './components/Defaultlayout'
 import Login from './pages/login/Login'
+import Userlayout from './components/Userlayout'
+import Editor from './pages/editor/Editor'
+import ResumeLayout from './pages/ResumeLayout/ResumeLayout'
 
 function App() {
   const router = createBrowserRouter([
@@ -31,7 +34,21 @@ function App() {
     // the above layout willnnot work for this  login route now
     {
       path: '/dashboard',
-      element: <Dashboard />,
+      element: <Userlayout />,
+      children: [
+        {
+          path: '/dashboard',
+          element: <Dashboard />,
+        },
+        {
+          path: '/dashboard/layout',
+          element: <ResumeLayout />,
+        },
+        // {
+        //   path: '/register',
+        //   element: <Register />,
+        // },
+      ],
     },
   ])
 

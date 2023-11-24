@@ -5,6 +5,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+#root {
+  height: 100%;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
 
 a {
   text-decoration: none;
@@ -16,11 +24,10 @@ a {
   color: $main-color;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
 }
 .main-container {
-  flex-grow: 1;
-  // height: 100%;
+  flex: 1;
 }
 
 .flex {

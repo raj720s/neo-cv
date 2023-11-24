@@ -32,7 +32,7 @@
   &-heading {
     font-weight: 500;
     font-size: 2em;
-    background: linear-gradient(45deg, violet, indigo, blue, green, red);
+    background: linear-gradient(45deg, violet, blue, orange, red);
     -webkit-background-clip: text;
     color: transparent;
     animation: rainbowAnimation 10s linear infinite; /* Optional: Add animation for a continuous effect */
@@ -64,5 +64,5 @@
 // }
 
 .box-shadow:hover {
-  box-shadow: 0 0.6rem 0.75rem rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0.6rem 0.75rem rgba(255, 248, 248, 0.1);
 }

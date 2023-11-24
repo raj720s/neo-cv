@@ -11,8 +11,8 @@ export default function Album() {
           </h2>
           <div className='flex gap-3 sm-flex-wrap'>
             <TemplateCard price={10} level='beginner' />
-            <TemplateCard price={10} level='intermediate' />
-            <TemplateCard price={10} level='expert' />
+            <TemplateCard price={15} level='intermediate' />
+            <TemplateCard price={20} level='expert' />
           </div>
         </div>
       </div>
