@@ -1,0 +1,68 @@
+@import '../../styles/index.scss';
+
+// $jumbotron-padding-y: 3rem;
+.jumbotron {
+  padding-top: $jumbotron-padding-y;
+  padding-bottom: $jumbotron-padding-y;
+  margin-bottom: 0;
+  background-color: $main-bg;
+
+  // @media (min-width: 768px) {
+  //   padding-top: calc($jumbotron-padding-y * 2);
+  //   padding-bottom: calc($jumbotron-padding-y * 2);
+  // }
+
+  background-image: url('/resume_bg.svg'); /* Replace 'your-image.jpg' with the path to your image */
+
+  /* Set background properties for responsiveness */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 50vh;
+
+  //   @include md {
+  //     padding-top: calc($jumbotron-padding-y * 2);
+  //     padding-bottom: calc($jumbotron-padding-y * 2);
+  //   }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  &-heading {
+    font-weight: 500;
+    font-size: 2em;
+    background: linear-gradient(45deg, violet, indigo, blue, green, red);
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: rainbowAnimation 10s linear infinite; /* Optional: Add animation for a continuous effect */
+  }
+  @keyframes rainbowAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  & .container {
+    max-width: 40rem;
+  }
+}
+
+// footer {
+//   padding-top: 3rem;
+//   padding-bottom: 3rem;
+
+//   p {
+//     margin-bottom: 0.25rem;
+//   }
+// }
+
+.box-shadow:hover {
+  box-shadow: 0 0.6rem 0.75rem rgba(0, 0, 0, 0.05);
+}

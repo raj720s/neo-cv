@@ -5,7 +5,8 @@ import './styles/index.scss'
 import Home from './pages/home/Home'
 import Register from './pages/register/Register'
 import Dashboard from './pages/dashboard/Dashboard'
-import Defaultlayout from './coponents/Defaultlayout'
+import Defaultlayout from './components/Defaultlayout'
+import Login from './pages/login/Login'
 
 function App() {
   const router = createBrowserRouter([
@@ -13,6 +14,14 @@ function App() {
       path: '/',
       element: <Defaultlayout />,
       children: [
+        {
+          path: '/',
+          element: <Home />,
+        },
+        {
+          path: '/login',
+          element: <Login />,
+        },
         {
           path: '/register',
           element: <Register />,

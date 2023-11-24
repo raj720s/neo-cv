@@ -7,7 +7,7 @@ import './nav.scss'
 
 export default function Headernav() {
   return (
-    <Navbar bg='dark' data-bs-theme='dark'>
+    <Navbar className='navbar' data-bs-theme='dark'>
       <Container>
         <Navbar.Brand>
           <Link to={'/'} className='navbar-brand'>
@@ -16,7 +16,7 @@ export default function Headernav() {
         </Navbar.Brand>
         <Nav className='ml-auto'>
           <Nav.Link>
-            <Link to='#' className='nav-link'>
+            <Link to={'/login'} className='nav-link'>
               Login
             </Link>
           </Nav.Link>

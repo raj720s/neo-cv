@@ -11,9 +11,16 @@ a {
   color: inherit; // will inherit if the parent has any color prop
 }
 
-.layout {
+.layout-default {
   background-color: $main-bg;
   color: $main-color;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.main-container {
+  flex-grow: 1;
+  // height: 100%;
 }
 
 .flex {
