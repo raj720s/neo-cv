@@ -21,7 +21,7 @@ function Dashboard(props: any) {
       <span>or</span>
       <div className='create-new-btn mb-3'>
         <Button variant='secondary'>
-          <Link to={'/dashboard/layout'} className='text-white text-decoration-none'>
+          <Link to={'/user/dashboard/templates'} className='text-white text-decoration-none'>
             Create New
           </Link>
         </Button>

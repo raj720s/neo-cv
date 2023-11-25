@@ -1,0 +1,22 @@
+.resume-temp-container {
+  // position: relative;
+  // background: url('path/to/your-resume-template.jpg') center/cover;
+  color: #fff;
+
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.btn-primary {
+  /* Add your button styling here */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+}
