@@ -1,8 +1,8 @@
 import React from 'react'
-import {Button, Container, NavLink} from 'react-bootstrap'
+import { Button, Container, NavLink } from 'react-bootstrap'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import './nav.scss'
 
 export default function Headernav() {

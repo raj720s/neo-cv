@@ -1,11 +1,8 @@
 import React from 'react'
 import './home.scss'
 // Define the type for the props
-interface MyComponentProps {
-  price: number
-  level: string
-}
-export default function TemplateCard(props: MyComponentProps) {
+
+export default function TemplateCard(props) {
   return (
     <div className='col-md-4'>
       <div className='card mb-4 box-shadow'>
