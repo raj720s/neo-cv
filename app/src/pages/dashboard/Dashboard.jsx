@@ -1,8 +1,8 @@
 import React from 'react'
 import './dashboard.scss'
 import { Button } from 'react-bootstrap'
-import Resume from './Resume'
 import { Link } from 'react-router-dom'
+import UserResume from './UserResume'
 
 function Dashboard(props) {
   // fetch list of already downloaded cvs and Templates
@@ -16,15 +16,16 @@ function Dashboard(props) {
       <div className='intoduction-container h1'>Hi User</div>
       <div className='h3'>Select your resume.</div>
       <div className='resume-container'>
-        <Resume />
+        <UserResume />
       </div>
       <span>or</span>
       <div className='create-new-btn mb-3'>
-        <Button variant='secondary'>
-          <Link to={'/user/dashboard/templates'} className='text-white text-decoration-none'>
-            Create New
-          </Link>
-        </Button>
+
+        <Link to={'/user/templates'} className='btn 
+        btn-secondary text-white text-decoration-none'>
+          Create New
+        </Link>
+
       </div>
     </div>
   )

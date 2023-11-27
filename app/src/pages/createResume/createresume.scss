@@ -1,0 +1,31 @@
+@import '../../styles/media';
+@import '../../styles/variables';
+.resume-layout {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  background-color: $main-bg;
+  flex-wrap: wrap;
+  justify-content: center;
+  @include lg {
+    flex-wrap: wrap;
+  }
+}
+
+.details-container {
+  flex-grow: 1;
+  justify-content: center;
+  max-width: 680px;
+  // /* min-width: 550px; */
+}
+.preview-container {
+  color: black;
+  // min-width: 600px;
+  flex-grow: 1;
+  max-width: 720px;
+  display: flex;
+  justify-content: center;
+  div {
+    background-color: #eee;
+  }
+}

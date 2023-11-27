@@ -1,5 +1,7 @@
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider, Route, Link } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Route, Link, redirect, createRoutesFromElements } from 'react-router-dom'
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import './styles/index.scss'
 import Home from './pages/home/Home'
@@ -8,69 +10,44 @@ import Dashboard from './pages/dashboard/Dashboard'
 import Defaultlayout from './components/Defaultlayout'
 import Login from './pages/login/Login'
 import Userlayout from './components/Userlayout'
-import Editor from './pages/editor/Editor'
+// import Editor from './pages/editor/Editor'
 import ResumeLayout from './pages/ResumeLayout/TemplateLayout'
 import Fof from './pages/Fof'
 import TemplateLayout from './pages/ResumeLayout/TemplateLayout'
-import ResumeCreate from './pages/createResume/ResumeCreate'
+import CreateResume from './pages/createResume/CreateResume'
+import { useEffect, useState } from 'react'
+// import { AuthProvider } from './utils/useAuth'
+
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Defaultlayout />,
-      children: [
-        {
-          path: '/',
-          element: <Home />,
-        },
-        {
-          path: '/login',
-          element: <Login />,
-        },
-        {
-          path: '/register',
-          element: <Register />,
-        },
-      ],
-    },
-    // the above layout willnnot work for this  login route now
-    {
-      path: '/user/dashboard',
-      element: <Userlayout />,
-      children: [
-        {
-          path: '/user/dashboard',
-          element: <Dashboard />,
-        },
-        {
-          path: '/user/dashboard/templates',
-          element: <TemplateLayout />,
-        },
-        // {
-        //   path: '/user/dashboard/add/template/:tempID',
-        //   element: <Register />,
-        // },
-      ],
-    },
-    {
-      path: '/user/add/template/:tempID',
-      element: <Userlayout />,
-      children: [
-        {
-          path: '/user/add/template/:tempID',
-          element: <ResumeCreate />,
-        },
-      ],
-    },
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const userToken = localStorage.getItem('token');
 
-    {
-      path: '*',
-      element: <Fof />,
-    },
-  ])
 
-  return <RouterProvider router={router} />
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route path='/' element={<Defaultlayout />}>
+          <Route index element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+        </Route>
+        <Route path='/user' element={<Userlayout />} >
+          <Route path='/user/dashboard' element={<Dashboard />} />
+          <Route path='/user/templates' element={<TemplateLayout />} />
+          <Route path='/user/create/:tempID' element={<CreateResume />} />
+        </Route>
+
+      </>
+    )
+  )
+
+  return (
+    // <AuthProvider>
+    <RouterProvider router={router} />
+    // </AuthProvider>
+  )
 }
 
 export default App

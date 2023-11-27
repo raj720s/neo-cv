@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import ResumeTemplateCard from './ResumeTemplateCard'
 import './resumelayout.scss'
 // import {useDispatch} from 'react-redux'
-import {templateImagesPaths} from '../../utils/data'
-import {Link} from 'react-router-dom'
+import { templateImagesPaths } from '../../utils/data'
+import { Link } from 'react-router-dom'
 
 function TemplateLayout() {
   const [isMouseOver, setIsMouseOver] = useState('MouseIsNotOver') //this state is used to display 'useTemplate' button when user hovers over the template
@@ -22,13 +22,13 @@ function TemplateLayout() {
         </div>
         */}
 
-        <div className='container' style={{color: '#1f4287'}}>
+        <div className='container' style={{ color: '#1f4287' }}>
           <div className='row'>
             {templateImagesPaths.map((currentTemplate) => {
               return (
                 <div className='col col-lg-4 col-md-6  col-12 mt-5' key={currentTemplate.id}>
                   <div
-                    style={{position: 'relative'}}
+                    style={{ position: 'relative' }}
                     onMouseOver={() => {
                       //this function allows us to display 'Use Template'button on the top of the targeted template, when the user hovers over it by setting state's value to the targeted template name.//
                       setIsMouseOver(currentTemplate.name)
@@ -45,19 +45,19 @@ function TemplateLayout() {
                     {isMouseOver === currentTemplate.name ? ( //this conditional rendering is showing 'useTemplate' button when isMouseOver === currentTemplate.name //
                       <button
                         className='btn btn-secondary'
-                        style={{position: 'absolute', top: '50%', right: '30%'}}
-                        // onClick={() => {
-                        //   // dispatch(
-                        //   //   updateState({
-                        //   //     //this dispatch function is used to update value of 'selectedTemplate' with the targetedTemplate in dataStoreSlice.js//
-                        //   //     key: 'selectedTemplate',
-                        //   //     value: currentTemplate.name,
-                        //   //   })
-                        //   // )
-                        // }}
+                        style={{ position: 'absolute', top: '50%', right: '30%' }}
+                      // onClick={() => {
+                      //   // dispatch(
+                      //   //   updateState({
+                      //   //     //this dispatch function is used to update value of 'selectedTemplate' with the targetedTemplate in dataStoreSlice.js//
+                      //   //     key: 'selectedTemplate',
+                      //   //     value: currentTemplate.name,
+                      //   //   })
+                      //   // )
+                      // }}
                       >
                         {/* Use Template */}
-                        <Link className='text-decoration-none text-white' to={`/user/add/template/${currentTemplate.id}`}>
+                        <Link className='text-decoration-none text-white' to={`/user/create/${currentTemplate.id}`}>
                           Use Template
                         </Link>
                       </button>
