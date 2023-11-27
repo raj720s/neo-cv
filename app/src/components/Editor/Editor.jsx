@@ -4,11 +4,17 @@ import { X } from "react-feather";
 import InputControl from "../InputControl/InputControl";
 
 import styles from "./editor.module.css";
-
+import axiosIntance from "../../utils/Axios";
+import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 function Editor(props) {
+    let { tempID } = useParams();
     const sections = props.sections;
     const information = props.information;
 
+    const [message, setMessage] = useState('')
+
+    const [error, setError] = useState('')
     const [activeSectionKey, setActiveSectionKey] = useState(
         Object.keys(sections)[0]
     );
@@ -28,6 +34,8 @@ function Editor(props) {
         email: activeInformation?.detail?.email || "",
     });
 
+    console.log({ values })
+
     const handlePointUpdate = (value, index) => {
         const tempValues = { ...values };
         if (!Array.isArray(tempValues.points)) tempValues.points = [];
@@ -35,6 +43,21 @@ function Editor(props) {
         setValues(tempValues);
     };
 
+    console.log({ information })
+    const skillsBody = (
+        <div className={styles.detail}>
+            <div className={styles.row}>
+                <InputControl
+                    label="Title"
+                    placeholder="Enter Skill"
+                    value={values.skill}
+                    onChange={(event) =>
+                        setValues((prev) => ({ ...prev, skill: event.target.value }))
+                    }
+                />
+            </div>
+        </div>
+    );
     const workExpBody = (
         <div className={styles.detail}>
             <div className={styles.row}>
@@ -336,6 +359,8 @@ function Editor(props) {
         switch (sections[activeSectionKey]) {
             case sections.basicInfo:
                 return basicInfoBody;
+            // case sections.skills:
+            //     return skillsBody;
             case sections.workExp:
                 return workExpBody;
             case sections.project:
@@ -354,6 +379,7 @@ function Editor(props) {
     };
 
     const handleSubmission = () => {
+
         switch (sections[activeSectionKey]) {
             case sections.basicInfo: {
                 const tempDetail = {
@@ -375,6 +401,23 @@ function Editor(props) {
                 }));
                 break;
             }
+            // case sections.skills: {
+            //     const tempDetail = {
+            //         skill: values.skill,
+            //     };
+            //     const tempDetails = [...information[sections.skills]?.details];
+            //     tempDetails[activeDetailIndex] = tempDetail;
+
+            //     props.setInformation((prev) => ({
+            //         ...prev,
+            //         [sections.skills]: {
+            //             ...prev[sections.skills],
+            //             details: tempDetails,
+            //             sectionTitle,
+            //         },
+            //     }));
+            //     break;
+            // }
             case sections.workExp: {
                 const tempDetail = {
                     certificationLink: values.certificationLink,
@@ -479,6 +522,19 @@ function Editor(props) {
                 break;
             }
         }
+
+        axiosIntance.post('/resume/save-resume', {
+            data: JSON.stringify(information),
+            resumeID: tempID
+        }).then(res => res.data).then(data => {
+            console.log(data)
+            return toast('data saved')
+        }).catch(e => {
+            console.log(e.message)
+            toast.error(e.message || 'login failed', {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        })
     };
 
     const handleAddNew = () => {
@@ -497,6 +553,7 @@ function Editor(props) {
         }));
         setActiveDetailIndex(details?.length - 1);
     };
+    // console.log({ activeDetailIndex })
 
     const handleDeleteDetail = (index) => {
         const details = activeInformation?.details
@@ -522,6 +579,7 @@ function Editor(props) {
         setActiveDetailIndex(0);
         setValues({
             name: activeInfo?.detail?.name || "",
+            skills: activeInfo?.detail?.skills || '',
             overview: activeInfo?.details
                 ? activeInfo.details[0]?.overview || ""
                 : "",
@@ -558,13 +616,14 @@ function Editor(props) {
                 : activeInfo?.detail?.github || "",
             phone: activeInfo?.detail?.phone || "",
             email: activeInfo?.detail?.email || "",
-            summary: typeof activeInfo?.detail !== "object" ? activeInfo.detail : "",
-            other: typeof activeInfo?.detail !== "object" ? activeInfo.detail : "",
+            summary: typeof activeInfo?.detail !== "object" ? activeInfo?.detail : "",
+            other: typeof activeInfo?.detail !== "object" ? activeInfo?.detail : "",
         });
         handleSubmission()
     }, [activeSectionKey]);
 
     useEffect(() => {
+        // handleSubmission()
         setActiveInformation(information[sections[activeSectionKey]]);
     }, [information]);
 
