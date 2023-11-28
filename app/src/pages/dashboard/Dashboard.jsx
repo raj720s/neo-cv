@@ -8,26 +8,38 @@ import ReactToPrint from 'react-to-print'
 import { ArrowDown } from 'react-feather'
 import axiosIntance from '../../utils/Axios'
 import { toast } from 'react-toastify'
+import Resume from '../../components/Resume/Resume'
 
 function Dashboard(props) {
-  const [resuemData, setResumeData] = useState()
+  const [resuemData, setResumeData] = useState([])
   const [error, setError] = useState('')
 
 
-  useEffect(async () => {
+  useEffect(() => {
     // fetch  user resume data 
+    fetchdata()
+  }, [])
 
-    axiosIntance.get('/resume/fetch-resume').then(res => {
-      setResumeData(res.data)
-    }).catch(e => {
+  function fetchdata() {
+    try {
+      axiosIntance.get('/resume/fetch-resume').then(res => {
+        setResumeData(res.data.data)
+      })
+    } catch (error) {
       setError(e.message || e || 'register error')
       toast.error(e.message || 'login failed', {
         position: toast.POSITION.TOP_RIGHT,
       });
-    })
-  }, [])
+    }
+  }
   // resuemData = [{},{}]
-  // console.log(resuemData)
+  console.log({ resuemData })
+  const resumeInfo = resuemData.map(rs => {
+    const data = JSON.parse(JSON.parse(rs.userData))
+    return data
+  })
+
+  console.log({ resumeInfo })
 
 
   const colors = ["#239ce2", "#48bb78", "#0bc5ea", "#a0aec0", "#ed8936"];
@@ -42,48 +54,48 @@ function Dashboard(props) {
     other: "Other",
   };
   const [activeColor, setActiveColor] = useState(colors[0]);
-  const [resumeInformation, setResumeInformation] = useState({
-    [sections.basicInfo]: {
-      id: sections.basicInfo,
-      sectionTitle: sections.basicInfo,
-      detail: {},
-    },
-    // [sections.skills]: {
-    //   id: sections.skills,
-    //   sectionTitle: sections.skills,
-    //   details: [],
-    // },
-    [sections.workExp]: {
-      id: sections.workExp,
-      sectionTitle: sections.workExp,
-      details: [],
-    },
-    [sections.project]: {
-      id: sections.project,
-      sectionTitle: sections.project,
-      details: [],
-    },
-    [sections.education]: {
-      id: sections.education,
-      sectionTitle: sections.education,
-      details: [],
-    },
-    [sections.achievement]: {
-      id: sections.achievement,
-      sectionTitle: sections.achievement,
-      points: [],
-    },
-    [sections.summary]: {
-      id: sections.summary,
-      sectionTitle: sections.summary,
-      detail: "",
-    },
-    [sections.other]: {
-      id: sections.other,
-      sectionTitle: sections.other,
-      detail: "",
-    },
-  });
+  // const [resumeInformation, setResumeInformation] = useState({
+  //   [sections.basicInfo]: {
+  //     id: sections.basicInfo,
+  //     sectionTitle: sections.basicInfo,
+  //     detail: {},
+  //   },
+  //   // [sections.skills]: {
+  //   //   id: sections.skills,
+  //   //   sectionTitle: sections.skills,
+  //   //   details: [],
+  //   // },
+  //   [sections.workExp]: {
+  //     id: sections.workExp,
+  //     sectionTitle: sections.workExp,
+  //     details: [],
+  //   },
+  //   [sections.project]: {
+  //     id: sections.project,
+  //     sectionTitle: sections.project,
+  //     details: [],
+  //   },
+  //   [sections.education]: {
+  //     id: sections.education,
+  //     sectionTitle: sections.education,
+  //     details: [],
+  //   },
+  //   [sections.achievement]: {
+  //     id: sections.achievement,
+  //     sectionTitle: sections.achievement,
+  //     points: [],
+  //   },
+  //   [sections.summary]: {
+  //     id: sections.summary,
+  //     sectionTitle: sections.summary,
+  //     detail: "",
+  //   },
+  //   [sections.other]: {
+  //     id: sections.other,
+  //     sectionTitle: sections.other,
+  //     detail: "",
+  //   },
+  // });
   // fetch list of already downloaded cvs and Templates
   // show as preview in my cvs sections
   // give option to download share edit and delete ..
@@ -99,36 +111,43 @@ function Dashboard(props) {
         {/* <UserResume /> */}
         <div className="container">
 
+          {resumeInfo.map(info => {
+            return (
+              <>
+                <Resume ref={resumeRef}
+                  sections={sections}
+                  information={info}
+                  activeColor={activeColor} />
+
+                <div className='card-body'>
+                  <div className='d-flex justify-content-center align-items-center'>
+                    <ButtonGroup aria-label="Basic example">
+                      <ReactToPrint
+                        trigger={() => {
+                          return (
+                            <Button variant='secondary'>
+                              Download
+                            </Button>
+                          );
+                        }}
+                        content={() => resumeRef.current}
+                      />
+                      <Button variant="secondary">Share</Button>
+                    </ButtonGroup>
+                  </div>
+                </div></>
+            )
+          })}
+
+
+        </div>
+        {/* <div className="container">
+
           <UserResume ref={resumeRef}
             sections={sections}
             information={resumeInformation}
             activeColor={activeColor} />
-
-          <div className='card-body'>
-            <div className='d-flex justify-content-center align-items-center'>
-              <ButtonGroup aria-label="Basic example">
-                <ReactToPrint
-                  trigger={() => {
-                    return (
-                      <Button variant='secondary'>
-                        Download
-                      </Button>
-                    );
-                  }}
-                  content={() => resumeRef.current}
-                />
-                <Button variant="secondary">Share</Button>
-              </ButtonGroup>
-            </div>
-          </div>
-        </div>
-        <div className="container">
-
-          <UserResume ref={resumeRef}
-            sections={sections}
-            information={resumeInformation}
-            activeColor={activeColor} />
-        </div>
+        </div> */}
       </div>
       <span>or</span>
       <div className='create-new-btn mb-3'>
