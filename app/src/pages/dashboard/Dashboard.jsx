@@ -12,18 +12,28 @@ import Resume from '../../components/Resume/Resume'
 
 function Dashboard(props) {
   const [resuemData, setResumeData] = useState([])
-  const [error, setError] = useState('')
+  const [resumeInfo, setResumeInfo] = useState([])
 
+  const [error, setError] = useState('')
 
   useEffect(() => {
     // fetch  user resume data 
     fetchdata()
-  }, [])
+    if (resuemData.length) {
+      let dataResume = resuemData.map(resume => {
+        let userData = JSON.parse(resume.userData)
+        let parsed = JSON.parse(userData)
+        return parsed
+      })
+      setResumeInfo(dataResume)
+    }
+  }, [resumeInfo.length])
 
   function fetchdata() {
     try {
       axiosIntance.get('/resume/fetch-resume').then(res => {
         setResumeData(res.data.data)
+
       })
     } catch (error) {
       setError(e.message || e || 'register error')
@@ -32,12 +42,7 @@ function Dashboard(props) {
       });
     }
   }
-  // resuemData = [{},{}]
-  console.log({ resuemData })
-  const resumeInfo = resuemData.map(rs => {
-    const data = JSON.parse(JSON.parse(rs.userData))
-    return data
-  })
+
 
   console.log({ resumeInfo })
 
@@ -102,45 +107,33 @@ function Dashboard(props) {
   //-------------if not available --------//
   // show no cvs section and lets create ..
 
-  const resumeRef = useRef();
+  // const resumeRef = useRef();
   return (
     <div className='dashboard-container'>
       <div className='intoduction-container h1'>Hi User</div>
       <div className='h3'>Select your resume.</div>
       <div className='resume-container'>
         {/* <UserResume /> */}
-        <div className="container">
-
-          {resumeInfo.map(info => {
-            return (
-              <>
-                <Resume ref={resumeRef}
-                  sections={sections}
-                  information={info}
-                  activeColor={activeColor} />
-
-                <div className='card-body'>
-                  <div className='d-flex justify-content-center align-items-center'>
-                    <ButtonGroup aria-label="Basic example">
-                      <ReactToPrint
-                        trigger={() => {
-                          return (
-                            <Button variant='secondary'>
-                              Download
-                            </Button>
-                          );
-                        }}
-                        content={() => resumeRef.current}
-                      />
-                      <Button variant="secondary">Share</Button>
-                    </ButtonGroup>
-                  </div>
-                </div></>
-            )
-          })}
 
 
-        </div>
+        {resumeInfo.length ? resumeInfo.map(info => {
+          return (
+            <div className='user-resume-card'>
+              <UserResume
+                // ref={resumeRef}
+                sections={sections}
+                information={info}
+                activeColor={activeColor} />
+            </div>
+          )
+        }) : (
+          <div>
+            you have not created any resume yet.
+          </div>
+        )}
+
+
+
         {/* <div className="container">
 
           <UserResume ref={resumeRef}

@@ -10,11 +10,15 @@ import {
 } from "react-feather";
 
 import styles from "./userresume.module.css";
+import { Button, ButtonGroup } from "react-bootstrap";
+import ReactToPrint from "react-to-print";
 
 const UserResume = forwardRef((props, ref) => {
     const information = props.information;
     const sections = props.sections;
     const containerRef = useRef();
+
+    // console.log({ props })
 
     const [columns, setColumns] = useState([[], []]);
     const [source, setSource] = useState("");
@@ -298,54 +302,74 @@ const UserResume = forwardRef((props, ref) => {
     }, [props.activeColor]);
 
     return (
-        <div ref={ref}>
-            <div ref={containerRef} className={styles.container}>
-                <div className={styles.header}>
-                    <p className={styles.heading}>{info.basicInfo?.detail?.name}</p>
-                    <p className={styles.subHeading}>{info.basicInfo?.detail?.title}</p>
+        <>
+            <div ref={ref}>
+                <div ref={containerRef} className={styles.container}>
+                    <div className={styles.header}>
+                        <p className={styles.heading}>{info.basicInfo?.detail?.name}</p>
+                        <p className={styles.subHeading}>{info.basicInfo?.detail?.title}</p>
 
-                    <div className={styles.links}>
-                        {info.basicInfo?.detail?.email ? (
-                            <a className={styles.link} type="email">
-                                <AtSign /> {info.basicInfo?.detail?.email}
-                            </a>
-                        ) : (
-                            <span />
-                        )}
-                        {info.basicInfo?.detail?.phone ? (
-                            <a className={styles.link}>
-                                <Phone /> {info.basicInfo?.detail?.phone}
-                            </a>
-                        ) : (
-                            <span />
-                        )}
-                        {info.basicInfo?.detail?.linkedin ? (
-                            <a className={styles.link}>
-                                <Linkedin /> {info.basicInfo?.detail?.linkedin}
-                            </a>
-                        ) : (
-                            <span />
-                        )}
-                        {info.basicInfo?.detail?.github ? (
-                            <a className={styles.link}>
-                                <GitHub /> {info.basicInfo?.detail?.github}
-                            </a>
-                        ) : (
-                            <span />
-                        )}
+                        <div className={styles.links}>
+                            {info.basicInfo?.detail?.email ? (
+                                <a className={styles.link} type="email">
+                                    <AtSign /> {info.basicInfo?.detail?.email}
+                                </a>
+                            ) : (
+                                <span />
+                            )}
+                            {info.basicInfo?.detail?.phone ? (
+                                <a className={styles.link}>
+                                    <Phone /> {info.basicInfo?.detail?.phone}
+                                </a>
+                            ) : (
+                                <span />
+                            )}
+                            {info.basicInfo?.detail?.linkedin ? (
+                                <a className={styles.link}>
+                                    <Linkedin /> {info.basicInfo?.detail?.linkedin}
+                                </a>
+                            ) : (
+                                <span />
+                            )}
+                            {info.basicInfo?.detail?.github ? (
+                                <a className={styles.link}>
+                                    <GitHub /> {info.basicInfo?.detail?.github}
+                                </a>
+                            ) : (
+                                <span />
+                            )}
+                        </div>
                     </div>
-                </div>
 
-                <div className={styles.main}>
-                    <div className={styles.col1}>
-                        {columns[0].map((item) => sectionDiv[item])}
-                    </div>
-                    <div className={styles.col2}>
-                        {columns[1].map((item) => sectionDiv[item])}
+                    <div className={styles.main}>
+                        <div className={styles.col1}>
+                            {columns[0].map((item) => sectionDiv[item])}
+                        </div>
+                        <div className={styles.col2}>
+                            {columns[1].map((item) => sectionDiv[item])}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div className='card-body'>
+                <div className='d-flex justify-content-center align-items-center'>
+                    <ButtonGroup aria-label="Basic example">
+                        <ReactToPrint
+                            trigger={() => {
+                                return (
+                                    <Button variant='secondary'>
+                                        Download
+                                    </Button>
+                                );
+                            }}
+                            content={() => containerRef.current}
+                        />
+                        <Button variant="secondary">Share</Button>
+                    </ButtonGroup>
+                </div>
+            </div>
+        </>
     );
 });
 

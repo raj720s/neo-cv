@@ -4,6 +4,7 @@ import './resumelayout.scss'
 // import {useDispatch} from 'react-redux'
 import { templateImagesPaths } from '../../utils/data'
 import { Link } from 'react-router-dom'
+import Resume from '../../components/Resume/Resume'
 
 function TemplateLayout() {
   const [isMouseOver, setIsMouseOver] = useState('MouseIsNotOver') //this state is used to display 'useTemplate' button when user hovers over the template
@@ -12,7 +13,7 @@ function TemplateLayout() {
   return (
     <div className='layouts-sresume'>
       <div className='container px-4 py-5' id='custom-cards'>
-        <h2 className='pb-2'> Select a Template to get Started</h2>
+        <h2 className='pb-2'> Drag and Style the template any way you want </h2>
         <p className='pb-2 border-bottom'>Impress potential employers with a compelling resume template.</p>
 
         {/*
@@ -46,15 +47,7 @@ function TemplateLayout() {
                       <button
                         className='btn btn-secondary'
                         style={{ position: 'absolute', top: '50%', right: '30%' }}
-                      // onClick={() => {
-                      //   // dispatch(
-                      //   //   updateState({
-                      //   //     //this dispatch function is used to update value of 'selectedTemplate' with the targetedTemplate in dataStoreSlice.js//
-                      //   //     key: 'selectedTemplate',
-                      //   //     value: currentTemplate.name,
-                      //   //   })
-                      //   // )
-                      // }}
+
                       >
                         {/* Use Template */}
                         <Link className='text-decoration-none text-white' to={`/user/create/${currentTemplate.id}`}>
@@ -66,6 +59,9 @@ function TemplateLayout() {
                 </div>
               )
             })}
+
+
+
           </div>
         </div>
       </div>

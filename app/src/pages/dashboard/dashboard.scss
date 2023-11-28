@@ -1,13 +1,23 @@
 @import '../../styles/media';
+@import '../../styles/variables';
 .dashboard-container {
   display: flex;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  background-color: $main-bg;
 }
 .resume-container {
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  // flex-direction: column;
+  // &.user-resume-card{
+  //   display: flex;
+
+  // }
 }
 .resume-image-preview {
   min-height: 360px;

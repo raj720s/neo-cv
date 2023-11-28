@@ -33,7 +33,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
         </Route>
-        <Route path='/user' element={<Userlayout />} >
+        <Route path='/user' element={<Userlayout user={userToken} />} >
           <Route path='/user/dashboard' element={<Dashboard />} />
           <Route path='/user/templates' element={<TemplateLayout />} />
           <Route path='/user/create/:tempID' element={<CreateResume />} />

@@ -8,14 +8,17 @@ import {
     Paperclip,
     Phone,
 } from "react-feather";
-
+import { useParams } from 'react-router-dom'
 import styles from "./resume.module.css";
+import { toast } from "react-toastify";
+import axiosIntance from "../../utils/Axios";
 
 const Resume = forwardRef((props, ref) => {
     console.log({ props })
     const information = props.information;
     const sections = props.sections;
     const containerRef = useRef();
+    let { tempID } = useParams();
 
     const [columns, setColumns] = useState([[], []]);
     const [source, setSource] = useState("");
@@ -39,30 +42,47 @@ const Resume = forwardRef((props, ref) => {
         return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     };
 
+    const saveResume = () => {
+        console.log({ information })
+
+        axiosIntance.post('/resume/save-resume', {
+            data: JSON.stringify(information),
+            resumeID: tempID
+        }).then(res => res.data).then(data => {
+            console.log(data)
+            return toast('data saved')
+        }).catch(e => {
+            console.log(e.message)
+            toast.error(e.message || 'login failed', {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        })
+    }
+
     const sectionDiv = {
-        [sections.skills]: (
-            <div
-                key={"skills"}
-            // draggable
-            // onDragOver={() => seTarget(info.skills?.id)}
-            // onDragEnd={() => setSource(info.skills?.id)}
-            // className={`${styles.section} ${info.skills?.sectionTitle ? "" : styles.hidden
-            //     }`}
-            >
-                <div className={styles.item}>{info.skills.sectionTitle}</div>
-                {/* <div className={styles.content}>
-                    {info.skills?.map((item) => (
-                        <div className={styles.item} key={item.title}>
-                            {item.title ? (
-                                <p className={styles.title}>{item.title}</p>
-                            ) : (
-                                <span />
-                            )}
-                        </div>
-                    ))}
-                </div> */}
-            </div>
-        ),
+        // [sections.skills]: (
+        //     <div
+        //         key={"skills"}
+        //     // draggable
+        //     // onDragOver={() => seTarget(info.skills?.id)}
+        //     // onDragEnd={() => setSource(info.skills?.id)}
+        //     // className={`${styles.section} ${info.skills?.sectionTitle ? "" : styles.hidden
+        //     //     }`}
+        //     >
+        //         <div className={styles.item}>{info.skills.sectionTitle}</div>
+        //         {/* <div className={styles.content}>
+        //             {info.skills?.map((item) => (
+        //                 <div className={styles.item} key={item.title}>
+        //                     {item.title ? (
+        //                         <p className={styles.title}>{item.title}</p>
+        //                     ) : (
+        //                         <span />
+        //                     )}
+        //                 </div>
+        //             ))}
+        //         </div> */}
+        //     </div>
+        // ),
         [sections.workExp]: (
             <div
                 key={"workexp"}
@@ -72,7 +92,7 @@ const Resume = forwardRef((props, ref) => {
                 className={`${styles.section} ${info.workExp?.sectionTitle ? "" : styles.hidden
                     }`}
             >
-                <div className={styles.sectionTitle}>{info.workExp.sectionTitle}</div>
+                <div className={styles.sectionTitle}>{info.workExp?.sectionTitle}</div>
                 <div className={styles.content}>
                     {info.workExp?.details?.map((item) => (
                         <div className={styles.item} key={item.title}>
@@ -134,7 +154,7 @@ const Resume = forwardRef((props, ref) => {
                 className={`${styles.section} ${info.project?.sectionTitle ? "" : styles.hidden
                     }`}
             >
-                <div className={styles.sectionTitle}>{info.project.sectionTitle}</div>
+                <div className={styles.sectionTitle}>{info.project?.sectionTitle}</div>
                 <div className={styles.content}>
                     {info.project?.details?.map((item) => (
                         <div className={styles.item}>
@@ -323,53 +343,60 @@ const Resume = forwardRef((props, ref) => {
     }, [props.activeColor]);
 
     return (
-        <div ref={ref}>
-            <div ref={containerRef} className={styles.container}>
-                <div className={styles.header}>
-                    <p className={styles.heading}>{info.basicInfo?.detail?.name}</p>
-                    <p className={styles.subHeading}>{info.basicInfo?.detail?.title}</p>
+        <div>
 
-                    <div className={styles.links}>
-                        {info.basicInfo?.detail?.email ? (
-                            <a className={styles.link} type="email">
-                                <AtSign /> {info.basicInfo?.detail?.email}
-                            </a>
-                        ) : (
-                            <span />
-                        )}
-                        {info.basicInfo?.detail?.phone ? (
-                            <a className={styles.link}>
-                                <Phone /> {info.basicInfo?.detail?.phone}
-                            </a>
-                        ) : (
-                            <span />
-                        )}
-                        {info.basicInfo?.detail?.linkedin ? (
-                            <a className={styles.link}>
-                                <Linkedin /> {info.basicInfo?.detail?.linkedin}
-                            </a>
-                        ) : (
-                            <span />
-                        )}
-                        {info.basicInfo?.detail?.github ? (
-                            <a className={styles.link}>
-                                <GitHub /> {info.basicInfo?.detail?.github}
-                            </a>
-                        ) : (
-                            <span />
-                        )}
-                    </div>
-                </div>
+            <div ref={ref}>
+                <div ref={containerRef} className={styles.container}>
+                    <div className={styles.header}>
+                        <p className={styles.heading}>{info.basicInfo?.detail?.name}</p>
+                        <p className={styles.subHeading}>{info.basicInfo?.detail?.title}</p>
 
-                <div className={styles.main}>
-                    <div className={styles.col1}>
-                        {columns[0].map((item) => sectionDiv[item])}
+                        <div className={styles.links}>
+                            {info.basicInfo?.detail?.email ? (
+                                <a className={styles.link} type="email">
+                                    <AtSign /> {info.basicInfo?.detail?.email}
+                                </a>
+                            ) : (
+                                <span />
+                            )}
+                            {info.basicInfo?.detail?.phone ? (
+                                <a className={styles.link}>
+                                    <Phone /> {info.basicInfo?.detail?.phone}
+                                </a>
+                            ) : (
+                                <span />
+                            )}
+                            {info.basicInfo?.detail?.linkedin ? (
+                                <a className={styles.link}>
+                                    <Linkedin /> {info.basicInfo?.detail?.linkedin}
+                                </a>
+                            ) : (
+                                <span />
+                            )}
+                            {info.basicInfo?.detail?.github ? (
+                                <a className={styles.link}>
+                                    <GitHub /> {info.basicInfo?.detail?.github}
+                                </a>
+                            ) : (
+                                <span />
+                            )}
+                        </div>
                     </div>
-                    <div className={styles.col2}>
-                        {columns[1].map((item) => sectionDiv[item])}
+
+                    <div className={styles.main}>
+                        <div className={styles.col1}>
+                            {columns[0].map((item) => sectionDiv[item])}
+                        </div>
+                        <div className={styles.col2}>
+                            {columns[1].map((item) => sectionDiv[item])}
+                        </div>
                     </div>
                 </div>
             </div>
+            <div className="container d-flex justify-content-center">
+                <button onClick={saveResume}>save</button>
+            </div>
+
         </div>
     );
 });

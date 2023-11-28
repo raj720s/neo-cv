@@ -14,6 +14,13 @@ login-container {
   padding-bottom: 40px;
   background-color: $main-bg;
 }
+.register-container {
+  background-color: $main-bg;
+  button {
+    text-align: center;
+    margin: 10px auto;
+  }
+}
 
 .form-signin {
   background-color: $main-bg;

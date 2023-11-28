@@ -7,22 +7,22 @@ import './nav.scss'
 
 export default function Headernav(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
-  const token = localStorage.getItem('token')
+  // const navigate = useNavigate();
+  // const token = localStorage.getItem('token')
 
 
   // setIsLoggedIn(true);
 
-  useEffect(() => {
-    if (!token) {
-      setIsLoggedIn(false);
-      navigate('/')
-    } else {
-      setIsLoggedIn(true)
-      navigate('/user/dashboard')
-    }
+  // useEffect(() => {
+  //   if (!token) {
+  //     setIsLoggedIn(false);
+  //     navigate('/')
+  //   } else {
+  //     setIsLoggedIn(true)
+  //     navigate('/user/dashboard')
+  //   }
 
-  }, [])
+  // }, [])
   const logout = () => {
     localStorage.clear();
     navigate('/');

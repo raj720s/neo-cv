@@ -8,8 +8,41 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 function Editor(props) {
     let { tempID } = useParams();
-    const sections = props.sections;
-    const information = props.information;
+    let sections = props.sections;
+    let information = props.information;
+    // const [information, setInformation] = useState(props.information)
+    // const [resuemData, setResumeData] = useState([])
+
+    // useEffect(() => {
+    //     // fetch  user resume data 
+    //     fetchdata()
+    //     if (resuemData.length) {
+    //         let dataResume = resuemData.map(resume => {
+    //             let userData = JSON.parse(resume.userData)
+    //             let parsed = JSON.parse(userData)
+    //             return parsed
+    //         })
+    //         // setResumeInfo(dataResume)
+    //         console.log(dataResume)
+    //     }
+    // }, [resuemData.length])
+
+    // async function fetchdata() {
+    //     try {
+    //         await axiosIntance.post('/resume/fetch-resume-id', {
+    //             resumeID: tempID
+    //         }).then(res => {
+    //             setResumeData(res.data.data)
+
+    //         })
+    //     } catch (error) {
+    //         setError(e.message || e || 'register error')
+    //         toast.error(e.message || 'login failed', {
+    //             position: toast.POSITION.TOP_RIGHT,
+    //         });
+    //     }
+    // }
+
 
     const [message, setMessage] = useState('')
 
@@ -341,23 +374,45 @@ function Editor(props) {
     );
 
     const generateBody = () => {
-        switch (sections[activeSectionKey]) {
-            case sections.basicInfo:
-                return basicInfoBody;
-            case sections.workExp:
-                return workExpBody;
-            case sections.project:
-                return projectBody;
-            case sections.education:
-                return educationBody;
-            case sections.achievement:
-                return achievementsBody;
-            case sections.summary:
-                return summaryBody;
-            case sections.other:
-                return otherBody;
-            default:
-                return null;
+        if (tempID == 2) {
+
+            switch (sections[activeSectionKey]) {
+                case sections.basicInfo:
+                    return basicInfoBody;
+                case sections.project:
+                    return projectBody;
+                case sections.workExp:
+                    return workExpBody;
+                case sections.education:
+                    return educationBody;
+                case sections.achievement:
+                    return achievementsBody;
+                case sections.summary:
+                    return summaryBody;
+                case sections.other:
+                    return otherBody;
+                default:
+                    return null;
+            }
+        } else {
+            switch (sections[activeSectionKey]) {
+                case sections.basicInfo:
+                    return basicInfoBody;
+                case sections.workExp:
+                    return workExpBody;
+                case sections.project:
+                case sections.summary:
+                    return summaryBody;
+                    return projectBody;
+                case sections.education:
+                    return educationBody;
+                case sections.other:
+                    return otherBody;
+                case sections.achievement:
+                    return achievementsBody;
+                default:
+                    return null;
+            }
         }
     };
 
@@ -492,18 +547,6 @@ function Editor(props) {
             }
         }
 
-        axiosIntance.post('/resume/save-resume', {
-            data: JSON.stringify(information),
-            resumeID: tempID
-        }).then(res => res.data).then(data => {
-            console.log(data)
-            return toast('data saved')
-        }).catch(e => {
-            console.log(e.message)
-            toast.error(e.message || 'login failed', {
-                position: toast.POSITION.TOP_RIGHT,
-            });
-        })
     };
 
     const handleAddNew = () => {

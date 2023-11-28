@@ -1,9 +1,9 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 
-class User extends Model {}
+class User extends Model { }
 
 User.init({
-  // Model attributes are defined here
+  // Model attributes are defined her
   userID: {
     type: DataTypes.INTEGER,
     allowNull: false,
