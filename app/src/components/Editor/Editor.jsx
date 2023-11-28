@@ -3,11 +3,17 @@ import { X } from "react-feather";
 
 import InputControl from "../InputControl/InputControl";
 import styles from "./editor.module.css";
-
+import axiosIntance from "../../utils/Axios";
+import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 function Editor(props) {
+    let { tempID } = useParams();
     const sections = props.sections;
     const information = props.information;
 
+    const [message, setMessage] = useState('')
+
+    const [error, setError] = useState('')
     const [activeSectionKey, setActiveSectionKey] = useState(
         Object.keys(sections)[0]
     );
@@ -28,6 +34,8 @@ function Editor(props) {
         skills: activeInformation?.detail?.skills || []
     });
 
+    console.log({ values })
+
     const handlePointUpdate = (value, index) => {
         const tempValues = { ...values };
         if (!Array.isArray(tempValues.points)) tempValues.points = [];
@@ -35,7 +43,88 @@ function Editor(props) {
         setValues(tempValues);
     };
 
+    const workExpBody = (
+        <div className={styles.detail}>
+            <div className={styles.row}>
+                <InputControl
+                    label="Title"
+                    placeholder="Enter title eg. Frontend developer"
+                    value={values.title}
+                    onChange={(event) =>
+                        setValues((prev) => ({ ...prev, title: event.target.value }))
+                    }
+                />
+                <InputControl
+                    label="Company Name"
+                    placeholder="Enter company name eg. amazon"
+                    value={values.companyName}
+                    onChange={(event) =>
+                        setValues((prev) => ({ ...prev, companyName: event.target.value }))
+                    }
+                />
+            </div>
+            <div className={styles.row}>
+                <InputControl
+                    label="Certificate Link"
+                    placeholder="Enter certificate link"
+                    value={values.certificationLink}
+                    onChange={(event) =>
+                        setValues((prev) => ({
+                            ...prev,
+                            certificationLink: event.target.value,
+                        }))
+                    }
+                />
+                <InputControl
+                    label="Location"
+                    placeholder="Enter location eg. Remote"
+                    value={values.location}
+                    onChange={(event) =>
+                        setValues((prev) => ({ ...prev, location: event.target.value }))
+                    }
+                />
+            </div>
+            <div className={styles.row}>
+                <InputControl
+                    label="Start Date"
+                    type="date"
+                    placeholder="Enter start date of work"
+                    value={values.startDate}
+                    onChange={(event) =>
+                        setValues((prev) => ({ ...prev, startDate: event.target.value }))
+                    }
+                />
+                <InputControl
+                    label="End Date"
+                    type="date"
+                    placeholder="Enter end date of work"
+                    value={values.endDate}
+                    onChange={(event) =>
+                        setValues((prev) => ({ ...prev, endDate: event.target.value }))
+                    }
+                />
+            </div>
 
+            <div className={styles.column}>
+                <label>Enter work description</label>
+                <InputControl
+                    placeholder="Line 1"
+                    value={values.points ? values.points[0] : ""}
+                    onChange={(event) => handlePointUpdate(event.target.value, 0)}
+                />
+                <InputControl
+                    placeholder="Line 2"
+                    value={values.points ? values.points[1] : ""}
+                    onChange={(event) => handlePointUpdate(event.target.value, 1)}
+                />
+                <InputControl
+                    placeholder="Line 3"
+                    value={values.points ? values.points[2] : ""}
+                    onChange={(event) => handlePointUpdate(event.target.value, 2)}
+                />
+            </div>
+        </div>
+    );
     const projectBody = (
         <div className={styles.detail}>
             <div className={styles.row}>
@@ -226,113 +315,14 @@ function Editor(props) {
             </div>
         </div>
     );
-    const workExpBody = (
-        <div className={styles.detail}>
-            <div className={styles.row}>
-                <InputControl
-                    label="Title"
-                    placeholder="Enter title eg. Frontend developer"
-                    value={values.title}
-                    onChange={(event) =>
-                        setValues((prev) => ({ ...prev, title: event.target.value }))
-                    }
-                />
-                <InputControl
-                    label="Company Name"
-                    placeholder="Enter company name eg. amazon"
-                    value={values.companyName}
-                    onChange={(event) =>
-                        setValues((prev) => ({ ...prev, companyName: event.target.value }))
-                    }
-                />
-            </div>
-            <div className={styles.row}>
-                <InputControl
-                    label="Certificate Link"
-                    placeholder="Enter certificate link"
-                    value={values.certificationLink}
-                    onChange={(event) =>
-                        setValues((prev) => ({
-                            ...prev,
-                            certificationLink: event.target.value,
-                        }))
-                    }
-                />
-                <InputControl
-                    label="Location"
-                    placeholder="Enter location eg. Remote"
-                    value={values.location}
-                    onChange={(event) =>
-                        setValues((prev) => ({ ...prev, location: event.target.value }))
-                    }
-                />
-            </div>
-            <div className={styles.row}>
-                <InputControl
-                    label="Start Date"
-                    type="date"
-                    placeholder="Enter start date of work"
-                    value={values.startDate}
-                    onChange={(event) =>
-                        setValues((prev) => ({ ...prev, startDate: event.target.value }))
-                    }
-                />
-                <InputControl
-                    label="End Date"
-                    type="date"
-                    placeholder="Enter end date of work"
-                    value={values.endDate}
-                    onChange={(event) =>
-                        setValues((prev) => ({ ...prev, endDate: event.target.value }))
-                    }
-                />
-            </div>
-
-            <div className={styles.column}>
-                <label>Enter work description</label>
-                <InputControl
-                    placeholder="Line 1"
-                    value={values.points ? values.points[0] : ""}
-                    onChange={(event) => handlePointUpdate(event.target.value, 0)}
-                />
-                <InputControl
-                    placeholder="Line 2"
-                    value={values.points ? values.points[1] : ""}
-                    onChange={(event) => handlePointUpdate(event.target.value, 1)}
-                />
-                <InputControl
-                    placeholder="Line 3"
-                    value={values.points ? values.points[2] : ""}
-                    onChange={(event) => handlePointUpdate(event.target.value, 2)}
-                />
-            </div>
-        </div>
-    );
-    const skillsBody = (
-        <div className={styles.detail}>
-            <div className={styles.row}>
-                <InputControl
-                    label="Title"
-                    value={values.skills}
-                    placeholder="Enter a skill"
-                    onChange={(event) =>
-                        setValues((prev) => ({ ...prev, skills: [...values.skills, event.target.value] }))
-                    }
-                />
-
-            </div>
-
-
-        </div>
-    );
     const summaryBody = (
         <div className={styles.detail}>
             <InputControl
-                label="Skills"
-                value={values.skill}
-                placeholder="Enter your oskills"
+                label="Summary"
+                value={values.summary}
+                placeholder="Enter your objective/summary"
                 onChange={(event) =>
-                    setValues((prev) => ({ ...prev, skills: event.target.value }))
+                    setValues((prev) => ({ ...prev, summary: event.target.value }))
                 }
             />
         </div>
@@ -354,8 +344,6 @@ function Editor(props) {
         switch (sections[activeSectionKey]) {
             case sections.basicInfo:
                 return basicInfoBody;
-            case sections.skills:
-                return skillsBody;
             case sections.workExp:
                 return workExpBody;
             case sections.project:
@@ -374,6 +362,7 @@ function Editor(props) {
     };
 
     const handleSubmission = () => {
+
         switch (sections[activeSectionKey]) {
             case sections.basicInfo: {
                 const tempDetail = {
@@ -395,23 +384,6 @@ function Editor(props) {
                 }));
                 break;
             }
-            // case sections.skills: {
-            //     const tempDetail = {
-            //         skills: values.skills,
-            //     };
-            //     const tempDetails = [...information[sections.skills]?.details];
-            //     tempDetails[activeDetailIndex] = tempDetail;
-
-            //     props.setInformation((prev) => ({
-            //         ...prev,
-            //         [sections.skills]: {
-            //             ...prev[sections.skills],
-            //             details: tempDetails,
-            //             sectionTitle,
-            //         },
-            //     }));
-            //     break;
-            // }
             case sections.workExp: {
                 const tempDetail = {
                     certificationLink: values.certificationLink,
@@ -519,6 +491,19 @@ function Editor(props) {
                 break;
             }
         }
+
+        axiosIntance.post('/resume/save-resume', {
+            data: JSON.stringify(information),
+            resumeID: tempID
+        }).then(res => res.data).then(data => {
+            console.log(data)
+            return toast('data saved')
+        }).catch(e => {
+            console.log(e.message)
+            toast.error(e.message || 'login failed', {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        })
     };
 
     const handleAddNew = () => {
@@ -537,6 +522,7 @@ function Editor(props) {
         }));
         setActiveDetailIndex(details?.length - 1);
     };
+    // console.log({activeDetailIndex})
 
     const handleDeleteDetail = (index) => {
         const details = activeInformation?.details
@@ -562,6 +548,7 @@ function Editor(props) {
         setActiveDetailIndex(0);
         setValues({
             name: activeInfo?.detail?.name || "",
+            skills: activeInfo?.detail?.skills || '',
             overview: activeInfo?.details
                 ? activeInfo.details[0]?.overview || ""
                 : "",
@@ -601,13 +588,14 @@ function Editor(props) {
                 : activeInfo?.detail?.github || "",
             phone: activeInfo?.detail?.phone || "",
             email: activeInfo?.detail?.email || "",
-            summary: typeof activeInfo?.detail !== "object" ? activeInfo.detail : "",
-            other: typeof activeInfo?.detail !== "object" ? activeInfo.detail : "",
+            summary: typeof activeInfo?.detail !== "object" ? activeInfo?.detail : "",
+            other: typeof activeInfo?.detail !== "object" ? activeInfo?.detail : "",
         });
         handleSubmission()
     }, [activeSectionKey]);
 
     useEffect(() => {
+        // handleSubmission()
         setActiveInformation(information[sections[activeSectionKey]]);
     }, [information]);
 

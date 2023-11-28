@@ -3,12 +3,14 @@ import './createresume.scss'
 import DynamicForm from '../../components/DetailsForm/DynamicForm'
 import Editor from '../../components/Editor/Editor'
 import Resume from '../../components/Resume/Resume';
-
+import { ArrowDown } from "react-feather";
+import ReactToPrint from "react-to-print";
 function CreateResume() {
   const colors = ["#239ce2", "#48bb78", "#0bc5ea", "#a0aec0", "#ed8936"];
   const sections = {
     basicInfo: "Basic Info",
     skills: "skills",
+    // skills: "skills",
     workExp: "Work Experience",
     project: "Projects",
     education: "Education",
@@ -28,6 +30,11 @@ function CreateResume() {
       sectionTitle: sections.skills,
       detail: [],
     },
+    // [sections.skills]: {
+    //   id: sections.skills,
+    //   sectionTitle: sections.skills,
+    //   details: [],
+    // },
     [sections.workExp]: {
       id: sections.workExp,
       sectionTitle: sections.workExp,
@@ -61,23 +68,35 @@ function CreateResume() {
   });
 
   const resumeRef = useRef();
+  console.log({ resumeInformation })
   return (
-
-    <div className='resume-layout'>
-      <div className='details-container'>
-        <Editor sections={sections}
-          information={resumeInformation}
-          setInformation={setResumeInformation} />
+    <>
+      <div className='resume-layout'>
+        <div className='details-container'>
+          <Editor sections={sections}
+            information={resumeInformation}
+            setInformation={setResumeInformation} />
+        </div>
+        <div className='preview-container'>
+          <Resume
+            ref={resumeRef}
+            sections={sections}
+            information={resumeInformation}
+            activeColor={activeColor}
+          />
+        </div>
       </div>
-      <div className='preview-container'>
-        <Resume
-          ref={resumeRef}
-          sections={sections}
-          information={resumeInformation}
-          activeColor={activeColor}
-        />
-      </div>
-    </div>
+      <ReactToPrint
+        trigger={() => {
+          return (
+            <button>
+              Download <ArrowDown />
+            </button>
+          );
+        }}
+        content={() => resumeRef.current}
+      />
+    </>
   )
 }
 

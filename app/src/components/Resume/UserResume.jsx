@@ -9,10 +9,9 @@ import {
     Phone,
 } from "react-feather";
 
-import styles from "./resume.module.css";
+import styles from "./userresume.module.css";
 
-const Resume = forwardRef((props, ref) => {
-    console.log({ props })
+const UserResume = forwardRef((props, ref) => {
     const information = props.information;
     const sections = props.sections;
     const containerRef = useRef();
@@ -22,7 +21,6 @@ const Resume = forwardRef((props, ref) => {
     const [target, seTarget] = useState("");
 
     const info = {
-        skills: information[sections.skills],
         workExp: information[sections.workExp],
         project: information[sections.project],
         achievement: information[sections.achievement],
@@ -40,29 +38,6 @@ const Resume = forwardRef((props, ref) => {
     };
 
     const sectionDiv = {
-        [sections.skills]: (
-            <div
-                key={"skills"}
-            // draggable
-            // onDragOver={() => seTarget(info.skills?.id)}
-            // onDragEnd={() => setSource(info.skills?.id)}
-            // className={`${styles.section} ${info.skills?.sectionTitle ? "" : styles.hidden
-            //     }`}
-            >
-                <div className={styles.item}>{info.skills.sectionTitle}</div>
-                {/* <div className={styles.content}>
-                    {info.skills?.map((item) => (
-                        <div className={styles.item} key={item.title}>
-                            {item.title ? (
-                                <p className={styles.title}>{item.title}</p>
-                            ) : (
-                                <span />
-                            )}
-                        </div>
-                    ))}
-                </div> */}
-            </div>
-        ),
         [sections.workExp]: (
             <div
                 key={"workexp"}
@@ -374,4 +349,4 @@ const Resume = forwardRef((props, ref) => {
     );
 });
 
-export default Resume;
+export default UserResume;
