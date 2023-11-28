@@ -8,6 +8,7 @@ function CreateResume() {
   const colors = ["#239ce2", "#48bb78", "#0bc5ea", "#a0aec0", "#ed8936"];
   const sections = {
     basicInfo: "Basic Info",
+    skills: "skills",
     workExp: "Work Experience",
     project: "Projects",
     education: "Education",
@@ -21,6 +22,11 @@ function CreateResume() {
       id: sections.basicInfo,
       sectionTitle: sections.basicInfo,
       detail: {},
+    },
+    [sections.skills]: {
+      id: sections.skills,
+      sectionTitle: sections.skills,
+      detail: [],
     },
     [sections.workExp]: {
       id: sections.workExp,
