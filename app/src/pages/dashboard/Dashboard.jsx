@@ -23,18 +23,16 @@ function Dashboard(props) {
 
   function fetchdata() {
     try {
-      axiosIntance.get('/resume/fetch-resume').then(res => {
+      axiosIntance.get('/resume/fetch-user-resumes').then(res => {
         if (res.data.data) {
           setResumeData(res.data.data)
           let dataResume = res.data.data.map(resume => {
             let userData = JSON.parse(resume.userData)
-
             let parsed = typeof userData == 'string' ? JSON.parse(userData) : userData
             return parsed
           })
           return dataResume
         }
-
       }).then(info => {
         console.log({ info })
         setResumeInfo(info)
@@ -58,7 +56,7 @@ function Dashboard(props) {
   //   }
   // }, [resuemData])
 
-  console.log({ resumeInfo })
+  console.log({ resuemData, resumeInfo })
 
 
   const colors = ["#239ce2", "#48bb78", "#0bc5ea", "#a0aec0", "#ed8936"];
@@ -122,21 +120,25 @@ function Dashboard(props) {
   // show no cvs section and lets create ..
 
   // const resumeRef = useRef();
+
   return (
     <div className='dashboard-container'>
       <div className='intoduction-container h1'>Hi User</div>
 
+      {resuemData.length && (
+        <p className='h4 text-secondary'>try dragging the resume sections as per your need</p>
+      )}
+
       <div className='resume-container'>
         {/* <UserResume /> */}
 
-
-        {resumeInfo.length ? resumeInfo.map((info, ind) => {
+        {resuemData.length ? resuemData.map((data, ind) => {
           return (
             <div className='user-resume-card' key={ind}>
               <UserResume
-                // ref={resumeRef}
+                data={data}
                 sections={sections}
-                information={info}
+                // information={info}
                 activeColor={activeColor} />
             </div>
           )
@@ -147,20 +149,24 @@ function Dashboard(props) {
         )}
 
 
-
-        {/* <div className="container">
-
-          <UserResume
-            sections={sections}
-            information={resumeInfo}
-            activeColor={activeColor} />
-        </div> */}
       </div>
+      {/* {
+        resumeInfo.length < 2 && (
 
+          <div className='create-new-btn  mt-5'>
+
+            <Link to={'/user/templates'} className='btn 
+      btn-secondary text-white text-decoration-none'>
+              Create New
+            </Link>
+
+          </div>
+        )
+      } */}
       <div className='create-new-btn  mt-5'>
 
         <Link to={'/user/templates'} className='btn 
-        btn-secondary text-white text-decoration-none'>
+btn-secondary text-white text-decoration-none'>
           Create New
         </Link>
 

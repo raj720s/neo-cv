@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import './login.scss'
 import { Button } from 'react-bootstrap'
 import axiosIntance from '../../utils/Axios';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify';
+
 function Login() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('');
@@ -18,8 +19,8 @@ function Login() {
       localStorage.setItem('token', res.data.token)
       navigate('/user/dashboard')
     }).catch(e => {
-      setError(e.message || e)
-      toast.error(e.message || 'login failed', {
+
+      toast.error(e.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
     })
@@ -48,6 +49,7 @@ function Login() {
             Sign in
           </button>
         </form>
+        <Link onClick={() => navigate('/register')}> new ? register! </Link>
         <p>or</p>
         <div className='auth-container'>
           <Button variant='danger ' onClick={google}>

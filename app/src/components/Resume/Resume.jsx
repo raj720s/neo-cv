@@ -8,29 +8,37 @@ import {
     Paperclip,
     Phone,
 } from "react-feather";
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import styles from "./resume.module.css";
 import { toast } from "react-toastify";
 import axiosIntance from "../../utils/Axios";
 
-const Resume = forwardRef((props, ref) => {
+const Resume = ((props) => {
     console.log({ props })
+    const navigate = useNavigate()
     const information = props.information;
     const sections = props.sections;
     const containerRef = useRef();
-    let { tempID } = useParams();
+    let { resumeID, tempID } = useParams();
 
     const [columns, setColumns] = useState([[], []]);
     const [source, setSource] = useState("");
     const [target, seTarget] = useState("");
 
+    let url;
+
+    if (tempID) {
+        url = '/resume/save-resume'
+    } if (resumeID) {
+        url = '/resume/edit-resume'
+    }
+
     const info = {
-        skills: information[sections.skills],
+        basicInfo: information[sections.basicInfo],
         workExp: information[sections.workExp],
         project: information[sections.project],
         achievement: information[sections.achievement],
         education: information[sections.education],
-        basicInfo: information[sections.basicInfo],
         summary: information[sections.summary],
         other: information[sections.other],
     };
@@ -42,14 +50,15 @@ const Resume = forwardRef((props, ref) => {
         return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
     };
 
+    console.log(url)
     const saveResume = () => {
-        console.log({ information })
-
-        axiosIntance.post('/resume/save-resume', {
+        // create - save new user resume 
+        axiosIntance.post(url, {
             data: JSON.stringify(information),
-            resumeID: tempID
+            resumeID: resumeID ? resumeID : tempID || '1', // just to figutre out the template if new is created or the  resumeID if edited 
         }).then(res => res.data).then(data => {
             console.log(data)
+            navigate('/user/dashboard')
             return toast('data saved')
         }).catch(e => {
             console.log(e.message)
@@ -60,29 +69,7 @@ const Resume = forwardRef((props, ref) => {
     }
 
     const sectionDiv = {
-        // [sections.skills]: (
-        //     <div
-        //         key={"skills"}
-        //     // draggable
-        //     // onDragOver={() => seTarget(info.skills?.id)}
-        //     // onDragEnd={() => setSource(info.skills?.id)}
-        //     // className={`${styles.section} ${info.skills?.sectionTitle ? "" : styles.hidden
-        //     //     }`}
-        //     >
-        //         <div className={styles.item}>{info.skills.sectionTitle}</div>
-        //         {/* <div className={styles.content}>
-        //             {info.skills?.map((item) => (
-        //                 <div className={styles.item} key={item.title}>
-        //                     {item.title ? (
-        //                         <p className={styles.title}>{item.title}</p>
-        //                     ) : (
-        //                         <span />
-        //                     )}
-        //                 </div>
-        //             ))}
-        //         </div> */}
-        //     </div>
-        // ),
+
         [sections.workExp]: (
             <div
                 key={"workexp"}
@@ -325,6 +312,7 @@ const Resume = forwardRef((props, ref) => {
     };
 
     useEffect(() => {
+
         setColumns([
             [sections.project, sections.education, sections.summary],
             [sections.workExp, sections.achievement, sections.other],
@@ -345,7 +333,7 @@ const Resume = forwardRef((props, ref) => {
     return (
         <div>
 
-            <div ref={ref}>
+            <div >
                 <div ref={containerRef} className={styles.container}>
                     <div className={styles.header}>
                         <p className={styles.heading}>{info.basicInfo?.detail?.name}</p>
@@ -394,7 +382,7 @@ const Resume = forwardRef((props, ref) => {
                 </div>
             </div>
             <div className="container d-flex justify-content-center">
-                <button onClick={saveResume}>save</button>
+                <button className="btn btn-primary" onClick={saveResume}>save</button>
             </div>
 
         </div>

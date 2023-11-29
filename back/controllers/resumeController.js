@@ -9,7 +9,6 @@ const UserResume = require("../models/userResume.model");
  * */
 module.exports.fetchResume = async (req, res) => {
     let formData = req.body
-
     const user = req.user
     // return console.log({ user, formData })
     // return console.log({ formData: formData, user: req.user })
@@ -105,9 +104,8 @@ module.exports.saveResume = async (req, res) => {
 
     let user = req.user
     let schema = {
-        "tempID": "required",
+        "resumeID": "required",
         "data": "required",
-
     }
     // validate request
     const validateData = new node_validator.Validator(formData, schema);
@@ -158,6 +156,7 @@ module.exports.saveResume = async (req, res) => {
 module.exports.editResuem = async (req, res) => {
 
     let formData = req.body
+    const user = req.user
     // return console.log({ formData })
     let schema = {
         "resumeID": "required",
@@ -182,6 +181,8 @@ module.exports.editResuem = async (req, res) => {
                     userData: JSON.stringify(formData.data),
                 });
                 return res.status(201).json({ status: true, message: 'resume updated', data: existing.toJSON() });
+            } else {
+                return res.status(400).json({ status: true, message: 'resume not found', error: {} });
             }
         } catch (error) {
             console.log({ ms: error.message })

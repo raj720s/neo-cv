@@ -73,11 +73,8 @@ module.exports.createUser = (req, res) => {
             info.where = {
                 email: formData.email
             }
-
             let userExistsCheck = await UserModel.findOne({ where: info.where, attributes: info.columns })
-
             if (!helper.isEmpty(userExistsCheck)) return res.status(409).json({ status: false, message: msgHelper.msg('MSG004') });
-
             // insert user
             let currentTime = moment().format('YYYY-MM-DD HH:mm:ss')
             let info2 = {}
@@ -91,9 +88,6 @@ module.exports.createUser = (req, res) => {
             }
 
             let userInsert = await UserModel.create(info2.data)
-
-            console.log({ userInsert })
-
             let token = jwt.sign({ userID: userInsert.dataValues.userID, email: userInsert.dataValues.email }, process.env.SECRET_TOKEN, { expiresIn: '24h' });
 
 

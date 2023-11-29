@@ -27,7 +27,7 @@ function TemplateSection() {
                                 style={{ position: 'absolute', top: '50%', right: '30%' }}
                             >
                                 {/* Use Template */}
-                                <Link className='text-decoration-none text-white' to={`/user/create/${currentTemplate.id}`}>
+                                <Link className='text-decoration-none text-white' to={`/user/create/`}>
                                     Use Template
                                 </Link>
                             </button>

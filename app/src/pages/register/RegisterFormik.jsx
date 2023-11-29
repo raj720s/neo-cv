@@ -36,12 +36,10 @@ const RegisterFormik = () => {
             navigate('/user/dashboard')
         }).catch(e => {
             console.log(e)
-            toast.error(e.response.data['message'] || 'login failed', {
+            toast.error(e.message || 'login failed', {
                 position: toast.POSITION.TOP_RIGHT,
             });
         })
-
-        // Reset submitting status
         setSubmitting(false);
     };
 

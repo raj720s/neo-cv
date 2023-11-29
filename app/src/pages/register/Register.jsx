@@ -100,9 +100,6 @@ function Register() {
         </form> */}
 
       <RegisterFormik />
-
-
-
       <div className='auth-container'>
         <p>or</p>
         <Button variant='danger '>

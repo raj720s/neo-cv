@@ -36,4 +36,35 @@ axiosIntance.interceptors.request.use((req) => {
 //     return Promise.reject(error);
 // })
 
+// Add a response interceptor to handle errors globally
+axiosIntance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        // Customize the error response object
+        if (error.response) {
+            // The request was made, but the server responded with a status code
+            // that falls out of the range of 2xx
+            return Promise.reject({
+                status: error.response.status,
+                error: error.response.data,
+                message: error.response.data.message
+            });
+        } else if (error.request) {
+            // The request was made, but no response was received
+            return Promise.reject({
+                status: 500,
+                data: { message: 'No response from the server.' },
+                message: 'No response from the server.'
+            });
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            return Promise.reject({
+                status: 500,
+                data: { message: 'Error setting up the request.' },
+                message: 'Error setting up the request.'
+            });
+        }
+    }
+);
+
 export default axiosIntance;

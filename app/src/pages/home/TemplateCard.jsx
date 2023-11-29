@@ -1,8 +1,10 @@
 import React from 'react'
 import './home.scss'
+import { useNavigate } from 'react-router-dom'
 // Define the type for the props
 
 export default function TemplateCard(props) {
+  const navigate = useNavigate()
   return (
     <div className='col-md-4'>
       <div className='card mb-4 box-shadow'>
@@ -13,7 +15,7 @@ export default function TemplateCard(props) {
           </p>
           <div className='d-flex justify-content-center align-items-center'>
             <div className='btn-group'>
-              <button type='button' className='btn btn-sm btn-outline-secondary'>
+              <button type='button' onClick={() => navigate('/login')} className='btn btn-sm btn-outline-secondary'>
                 Price <small className='text-muted'>{props.price}$</small>
               </button>
             </div>
