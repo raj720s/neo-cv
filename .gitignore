@@ -13,4 +13,3 @@ build/
 .pnp.js
 dist/
 .cache/
-.env
