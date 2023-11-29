@@ -11,7 +11,7 @@ function Userlayout(props) {
   }
   return (
     <div className='layout-default'>
-      <Headernav auth={props.auth} />
+      <Headernav user={props.user} />
       <div className='main-container'>
         <Outlet />
       </div>

@@ -63,8 +63,8 @@ function CreateResume() {
     },
   });
 
-  const resumeRef = useRef();
-  console.log({ resumeInformation })
+  // const resumeRef = useRef();
+  // console.log({ resumeInformation })
   return (
     <>
       <div className='resume-layout'>
@@ -75,14 +75,14 @@ function CreateResume() {
         </div>
         <div className='preview-container'>
           <Resume
-            ref={resumeRef}
+            // ref={resumeRef}
             sections={sections}
             information={resumeInformation}
             activeColor={activeColor}
           />
         </div>
       </div>
-      <ReactToPrint
+      {/* <ReactToPrint
         trigger={() => {
           return (
             <button>
@@ -91,7 +91,7 @@ function CreateResume() {
           );
         }}
         content={() => resumeRef.current}
-      />
+      /> */}
     </>
   )
 }

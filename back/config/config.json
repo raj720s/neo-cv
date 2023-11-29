@@ -1,14 +1,14 @@
 {
   "localhost": {
     "username": "root",
-    "password": "Admin@123",
+    "password": "",
     "database": "resumeBuilder",
     "host": "localhost",
     "dialect": "mysql"
   },
   "development": {
     "username": "root",
-    "password": "Admin@123",
+    "password": "",
     "database": "resumeBuilder",
     "host": "localhost",
     "dialect": "mysql"

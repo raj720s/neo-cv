@@ -100,8 +100,8 @@ module.exports.createUser = (req, res) => {
             if (helper.isEmpty(userInsert)) return res.status(500).json({ status: false, message: msgHelper.msg('MSG002'), error: userInsert });
             res.status(201).json({ status: true, message: msgHelper.msg('MSG008'), token: token });
         } catch (error) {
-            console.log({ error })
-            res.status(500).json({ status: false, message: msgHelper.msg('MSG002'), error: error.message });
+            console.log({ ms: error.message })
+            res.status(500).json({ status: false, message: error?.message || msgHelper.msg('MSG002'), error: error.message });
         }
     })
 

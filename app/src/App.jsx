@@ -23,12 +23,17 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const userToken = localStorage.getItem('token');
 
-
+  useEffect(() => {
+    if (userToken) {
+      setIsLoggedIn(true)
+    }
+  }, [userToken])
+  console.log({ userToken })
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path='/' element={<Defaultlayout />}>
+        <Route path='/' element={<Defaultlayout user={userToken} />}>
           <Route index element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />

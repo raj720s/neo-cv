@@ -19,21 +19,25 @@ function Dashboard(props) {
   useEffect(() => {
     // fetch  user resume data 
     fetchdata()
-    if (resuemData.length) {
-      let dataResume = resuemData.map(resume => {
-        let userData = JSON.parse(resume.userData)
-        let parsed = JSON.parse(userData)
-        return parsed
-      })
-      setResumeInfo(dataResume)
-    }
-  }, [resumeInfo.length])
+  }, [])
 
   function fetchdata() {
     try {
       axiosIntance.get('/resume/fetch-resume').then(res => {
-        setResumeData(res.data.data)
+        if (res.data.data) {
+          setResumeData(res.data.data)
+          let dataResume = res.data.data.map(resume => {
+            let userData = JSON.parse(resume.userData)
 
+            let parsed = typeof userData == 'string' ? JSON.parse(userData) : userData
+            return parsed
+          })
+          return dataResume
+        }
+
+      }).then(info => {
+        console.log({ info })
+        setResumeInfo(info)
       })
     } catch (error) {
       setError(e.message || e || 'register error')
@@ -43,6 +47,16 @@ function Dashboard(props) {
     }
   }
 
+  // useEffect(() => {
+  //   if (resuemData.length) {
+  //     let dataResume = resuemData.map(resume => {
+  //       let userData = JSON.parse(resume.userData)
+  //       let parsed = JSON.parse(userData)
+  //       return parsed
+  //     })
+  //     setResumeInfo(dataResume)
+  //   }
+  // }, [resuemData])
 
   console.log({ resumeInfo })
 
@@ -111,14 +125,14 @@ function Dashboard(props) {
   return (
     <div className='dashboard-container'>
       <div className='intoduction-container h1'>Hi User</div>
-      <div className='h3'>Select your resume.</div>
+
       <div className='resume-container'>
         {/* <UserResume /> */}
 
 
-        {resumeInfo.length ? resumeInfo.map(info => {
+        {resumeInfo.length ? resumeInfo.map((info, ind) => {
           return (
-            <div className='user-resume-card'>
+            <div className='user-resume-card' key={ind}>
               <UserResume
                 // ref={resumeRef}
                 sections={sections}
@@ -136,14 +150,14 @@ function Dashboard(props) {
 
         {/* <div className="container">
 
-          <UserResume ref={resumeRef}
+          <UserResume
             sections={sections}
-            information={resumeInformation}
+            information={resumeInfo}
             activeColor={activeColor} />
         </div> */}
       </div>
-      <span>or</span>
-      <div className='create-new-btn mb-3'>
+
+      <div className='create-new-btn  mt-5'>
 
         <Link to={'/user/templates'} className='btn 
         btn-secondary text-white text-decoration-none'>

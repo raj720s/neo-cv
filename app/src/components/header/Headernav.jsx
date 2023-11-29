@@ -7,22 +7,18 @@ import './nav.scss'
 
 export default function Headernav(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const token = localStorage.getItem('token')
 
 
   // setIsLoggedIn(true);
 
-  // useEffect(() => {
-  //   if (!token) {
-  //     setIsLoggedIn(false);
-  //     navigate('/')
-  //   } else {
-  //     setIsLoggedIn(true)
-  //     navigate('/user/dashboard')
-  //   }
-
-  // }, [])
+  useEffect(() => {
+    if (!props.user) {
+      setIsLoggedIn(false);
+      navigate('/')
+    }
+  }, [props.user])
   const logout = () => {
     localStorage.clear();
     navigate('/');
@@ -31,11 +27,11 @@ export default function Headernav(props) {
     <Navbar className='navbar' data-bs-theme='dark'>
       <Container>
         <Navbar.Brand>
-          <Link to={'/'} className='navbar-brand'>
+          <Link to={props.user ? '/user/dashboard' : '/'} className='navbar-brand'>
             Neo_CV
           </Link>
         </Navbar.Brand>
-        {isLoggedIn ? (
+        {props.user ? (
           <Nav className='ml-auto'>
             <NavLink onClick={logout}>
               Logout

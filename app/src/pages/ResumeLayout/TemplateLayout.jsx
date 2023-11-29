@@ -23,13 +23,14 @@ function TemplateLayout() {
         </div>
         */}
 
-        <div className='container' style={{ color: '#1f4287' }}>
+        <div className='container d-flex' style={{ color: '#1f4287' }}>
           <div className='row'>
             {templateImagesPaths.map((currentTemplate) => {
               return (
                 <div className='col col-lg-4 col-md-6  col-12 mt-5' key={currentTemplate.id}>
                   <div
-                    style={{ position: 'relative' }}
+                    style={{ position: 'relative', color: '#eee' }}
+
                     onMouseOver={() => {
                       //this function allows us to display 'Use Template'button on the top of the targeted template, when the user hovers over it by setting state's value to the targeted template name.//
                       setIsMouseOver(currentTemplate.name)

@@ -8,7 +8,7 @@ import { ToastContainer } from 'react-toastify';
 function Defaultlayout(props) {
   return (
     <div className='layout-default'>
-      <Headernav auth={props.auth} />
+      <Headernav />
       <div className='main-container'>
         <Outlet />
       </div>
