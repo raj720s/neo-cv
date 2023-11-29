@@ -1,16 +1,18 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './createresume.scss'
 import DynamicForm from '../../components/DetailsForm/DynamicForm'
 import Editor from '../../components/Editor/Editor'
 import Resume from '../../components/Resume/Resume';
 import { ArrowDown } from "react-feather";
 import ReactToPrint from "react-to-print";
-function CreateResume() {
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axiosIntance from '../../utils/Axios';
+
+function CreateResume(props) {
   const colors = ["#239ce2", "#48bb78", "#0bc5ea", "#a0aec0", "#ed8936"];
   const sections = {
     basicInfo: "Basic Info",
-    // skills: "skills",
-    // skills: "skills",
     workExp: "Work Experience",
     project: "Projects",
     education: "Education",
@@ -18,19 +20,22 @@ function CreateResume() {
     summary: "Summary",
     other: "Other",
   };
+
+  const params = useParams()
+  const localtion = useLocation()
+  // console.log({ params, localtion })
+
+
   const [activeColor, setActiveColor] = useState(colors[0]);
+  const [info, setInfo] = useState({})
+  let edit = localtion.pathname.includes('/edit')
+
   const [resumeInformation, setResumeInformation] = useState({
     [sections.basicInfo]: {
       id: sections.basicInfo,
       sectionTitle: sections.basicInfo,
       detail: {},
     },
-
-    // [sections.skills]: {
-    //   id: sections.skills,
-    //   sectionTitle: sections.skills,
-    //   details: [],
-    // },
     [sections.workExp]: {
       id: sections.workExp,
       sectionTitle: sections.workExp,
@@ -63,15 +68,60 @@ function CreateResume() {
     },
   });
 
+  useEffect(() => {
+    if (localtion.pathname.includes('edit') && params.resumeID) {
+      fetchdata()
+    }
+  }, [localtion])
+
+
+
+
+  function fetchdata() {
+    try {
+      axiosIntance.post('/resume/fetch-user-resume', {
+        id: params.resumeID
+      }).then(res => {
+        if (res.data.data) {
+          console.log(res.data.data)
+          // setResumeData(res.data.data)
+          // let dataResume = res.data.data.map(resume => {
+          let userData = JSON.parse(res.data.data?.userData)
+          let parsed = typeof userData == 'string' ? JSON.parse(userData) : userData
+          return parsed
+          // })
+          return dataResume
+        }
+
+      }).then(info => {
+        console.log({ info })
+        setResumeInformation(info)
+        // setInfo(info)
+      })
+    } catch (e) {
+      toast.error(e.message || 'login failed', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }
+
+
+
   // const resumeRef = useRef();
-  // console.log({ resumeInformation })
+  console.log({ resumeInformation, info })
   return (
     <>
       <div className='resume-layout'>
         <div className='details-container'>
+
+
           <Editor sections={sections}
             information={resumeInformation}
-            setInformation={setResumeInformation} />
+            setInformation={setResumeInformation}
+          />
+
+
+
         </div>
         <div className='preview-container'>
           <Resume

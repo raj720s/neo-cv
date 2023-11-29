@@ -12,11 +12,16 @@ import {
 import styles from "./userresume.module.css";
 import { Button, ButtonGroup } from "react-bootstrap";
 import ReactToPrint from "react-to-print";
+import { useNavigate } from "react-router-dom";
 
 const UserResume = forwardRef((props, ref) => {
-    const information = props.information;
+    // const information = props.information;
+    let userData = JSON.parse(props.data.userData)
+    let parsed = typeof userData == 'string' ? JSON.parse(userData) : userData
+    const information = parsed
     const sections = props.sections;
     const containerRef = useRef();
+    const navigate = useNavigate()
 
     // console.log({ props })
 
@@ -51,7 +56,7 @@ const UserResume = forwardRef((props, ref) => {
                 className={`${styles.section} ${info.workExp?.sectionTitle ? "" : styles.hidden
                     }`}
             >
-                <div className={styles.sectionTitle}>{info.workExp.sectionTitle}</div>
+                <div className={styles.sectionTitle}>{info.workExp?.sectionTitle}</div>
                 <div className={styles.content}>
                     {info.workExp?.details?.map((item) => (
                         <div className={styles.item} key={item.title}>
@@ -113,7 +118,7 @@ const UserResume = forwardRef((props, ref) => {
                 className={`${styles.section} ${info.project?.sectionTitle ? "" : styles.hidden
                     }`}
             >
-                <div className={styles.sectionTitle}>{info.project.sectionTitle}</div>
+                <div className={styles.sectionTitle}>{info.project?.sectionTitle}</div>
                 <div className={styles.content}>
                     {info.project?.details?.map((item) => (
                         <div className={styles.item}>
@@ -366,6 +371,7 @@ const UserResume = forwardRef((props, ref) => {
                             content={() => containerRef.current}
                         />
                         <Button variant="secondary">Share</Button>
+                        <Button variant="secondary" onClick={() => navigate(`/user/edit/${props.data.id}`)} >Edit</Button>
                     </ButtonGroup>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider, Route, Link, redirect, createRoutesFromElements } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Route, Link, redirect, createRoutesFromElements, useNavigate } from 'react-router-dom'
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -21,15 +21,8 @@ import { useEffect, useState } from 'react'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const userToken = localStorage.getItem('token');
 
-  useEffect(() => {
-    if (userToken) {
-      setIsLoggedIn(true)
-    }
-  }, [userToken])
-  console.log({ userToken })
-
+  const userToken = localStorage.getItem('token')
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -42,8 +35,8 @@ function App() {
           <Route path='/user/dashboard' element={<Dashboard />} />
           <Route path='/user/templates' element={<TemplateLayout />} />
           <Route path='/user/create/:tempID' element={<CreateResume />} />
+          <Route path='/user/edit/:resumeID' element={<CreateResume />} />
         </Route>
-
       </>
     )
   )
