@@ -86,7 +86,9 @@ function CreateResume(props) {
           // setResumeData(res.data.data)
           // let dataResume = res.data.data.map(resume => {
           let userData = JSON.parse(res.data.data?.userData)
+          console.log(typeof userData, 'uddatat', userData)
           let parsed = typeof userData == 'string' ? JSON.parse(userData) : userData
+          console.log(typeof parsed, 'uddatat_parsed', parsed)
           return parsed
           // })          
         }

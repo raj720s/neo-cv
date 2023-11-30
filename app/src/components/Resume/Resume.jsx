@@ -382,7 +382,7 @@ const Resume = ((props) => {
                 </div>
             </div>
             <div className="container d-flex justify-content-center">
-                <button className="btn btn-primary" onClick={saveResume}>save</button>
+                <button className="btn btn-primary" onClick={saveResume}>Draft / Save </button>
             </div>
 
         </div>

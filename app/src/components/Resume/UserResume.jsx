@@ -10,9 +10,10 @@ import {
 } from "react-feather";
 
 import styles from "./userresume.module.css";
-import { Button, ButtonGroup } from "react-bootstrap";
+import { Button, ButtonGroup, Modal } from "react-bootstrap";
 import ReactToPrint from "react-to-print";
 import { useNavigate } from "react-router-dom";
+
 
 const UserResume = forwardRef((props, ref) => {
     // const information = props.information;
@@ -22,6 +23,7 @@ const UserResume = forwardRef((props, ref) => {
     const sections = props.sections;
     const containerRef = useRef();
     const navigate = useNavigate()
+    const [showPreview, setShowPreview] = useState(false)
 
     // console.log({ props })
 
@@ -306,9 +308,70 @@ const UserResume = forwardRef((props, ref) => {
         container.style.setProperty("--color", props.activeColor);
     }, [props.activeColor]);
 
+    function handlePreview() {
+        setShowPreview(prev => !prev)
+    }
+
     return (
         <>
-            <div ref={ref}>
+            {showPreview && (
+                <Modal show={showPreview} fullscreen={true} onHide={() => setShowPreview(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Your Resume Preview</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div ref={ref} >
+                            <div ref={containerRef} className={styles.container}>
+                                <div className={styles.header}>
+                                    <p className={styles.heading}>{info.basicInfo?.detail?.name}</p>
+                                    <p className={styles.subHeading}>{info.basicInfo?.detail?.title}</p>
+
+                                    <div className={styles.links}>
+                                        {info.basicInfo?.detail?.email ? (
+                                            <a className={styles.link} type="email">
+                                                <AtSign /> {info.basicInfo?.detail?.email}
+                                            </a>
+                                        ) : (
+                                            <span />
+                                        )}
+                                        {info.basicInfo?.detail?.phone ? (
+                                            <a className={styles.link}>
+                                                <Phone /> {info.basicInfo?.detail?.phone}
+                                            </a>
+                                        ) : (
+                                            <span />
+                                        )}
+                                        {info.basicInfo?.detail?.linkedin ? (
+                                            <a className={styles.link}>
+                                                <Linkedin /> {info.basicInfo?.detail?.linkedin}
+                                            </a>
+                                        ) : (
+                                            <span />
+                                        )}
+                                        {info.basicInfo?.detail?.github ? (
+                                            <a className={styles.link}>
+                                                <GitHub /> {info.basicInfo?.detail?.github}
+                                            </a>
+                                        ) : (
+                                            <span />
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className={styles.main}>
+                                    <div className={styles.col1}>
+                                        {columns[0].map((item) => sectionDiv[item])}
+                                    </div>
+                                    <div className={styles.col2}>
+                                        {columns[1].map((item) => sectionDiv[item])}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </Modal.Body>
+                </Modal>
+            )}
+            <div ref={ref} >
                 <div ref={containerRef} className={styles.container}>
                     <div className={styles.header}>
                         <p className={styles.heading}>{info.basicInfo?.detail?.name}</p>
@@ -372,6 +435,7 @@ const UserResume = forwardRef((props, ref) => {
                         />
                         <Button variant="secondary">Share</Button>
                         <Button variant="secondary" onClick={() => navigate(`/user/edit/${props.data.id}`)} >Edit</Button>
+                        <Button variant="secondary" onClick={setShowPreview} >Preview</Button>
                     </ButtonGroup>
                 </div>
             </div>

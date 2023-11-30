@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, Route, Link, redirect, createRoutesFromElements, useNavigate } from 'react-router-dom'
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -17,17 +17,16 @@ const CreateResume = lazy(() => import('./pages/createResume/CreateResume'));
 import { useState } from 'react'
 
 function App() {
-  const userToken = localStorage.getItem('token')
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-
-        <Route path='/' element={<Defaultlayout user={userToken} />}>
+        <Route path='/' element={<Defaultlayout />}>
           <Route index element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
         </Route>
-        <Route path='/user' element={<Userlayout user={userToken} />} >
+        <Route path='/user' element={<Userlayout auth={true} />} >
           <Route path='/user/dashboard' element={<Dashboard />} />
           <Route path='/user/templates' element={<TemplateLayout />} />
           <Route path='/user/create/:tempID' element={<CreateResume />} />

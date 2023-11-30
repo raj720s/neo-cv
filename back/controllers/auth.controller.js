@@ -64,7 +64,6 @@ module.exports.createUser = (req, res) => {
     const validateData = new node_validator.Validator(formData, schema);
     validateData.check().then(async (matched) => {
         if (!matched) return res.status(422).json({ status: false, message: 'Invalid request data', error: validateData.errors });
-
         try {
             // check if user already exists
             let info = {}

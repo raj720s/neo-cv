@@ -4,6 +4,7 @@ import { X } from "react-feather";
 import InputControl from "../InputControl/InputControl";
 
 import styles from "./editor.module.css";
+import { OverlayTrigger } from "react-bootstrap";
 
 function Editor(props) {
 
@@ -652,7 +653,8 @@ function Editor(props) {
 
                 {generateBody()}
 
-                <button onClick={handleSubmission}>Save</button>
+                <button onClick={handleSubmission}>update</button>
+
             </div>
         </div>
     );

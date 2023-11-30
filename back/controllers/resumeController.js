@@ -102,6 +102,7 @@ module.exports.fetchResumeData = async (req, res) => {
 module.exports.saveResume = async (req, res) => {
     let formData = req.body
 
+    // return false
     let user = req.user
     let schema = {
         "resumeID": "required",
@@ -167,23 +168,36 @@ module.exports.editResuem = async (req, res) => {
     validateData.check().then(async (matched) => {
         if (!matched) return res.status(422).json({ status: false, message: 'Invalid request data', error: validateData.errors });
         try {
-            const existing = await UserResume.findOne({
-                where: {
-                    userID: user.userID,
-                    id: formData.resumeID,
-                },
-            });
+            // const existing = await UserResume.findOne({
+            //     where: {
+            //         userID: user.userID,
+            //         id: formData.resumeID,
+            //     },
+            // });
 
-            // // return console.log({ existingUserResume })
-            // // update fields if exist 
-            if (existing) {
-                await existing.update({
-                    userData: JSON.stringify(formData.data),
-                });
-                return res.status(201).json({ status: true, message: 'resume updated', data: existing.toJSON() });
-            } else {
-                return res.status(400).json({ status: true, message: 'resume not found', error: {} });
+            // // // return console.log({ existingUserResume })
+            // // // update fields if exist 
+            // if (existing) {
+            //     await existing.update({
+            //         userData: JSON.stringify(formData.data),
+            //     });
+            //     return res.status(201).json({ status: true, message: 'resume updated', data: existing.toJSON() });
+            // } else {
+            //     return res.status(400).json({ status: true, message: 'resume not found', error: {} });
+            // }
+
+            // direct upodate approach  -- 
+
+            const newUpdate = await UserResume.update({
+                userData: JSON.stringify(formData.data)
+            }, {
+                where: { id: formData.resumeID }
+            })
+
+            if (newUpdate) {
+                return res.status(201).json({ status: true, message: 'resume updated', data: newUpdate });
             }
+            return res.status(400).json({ status: true, message: 'resume not found', error: {} });
         } catch (error) {
             console.log({ ms: error.message })
             res.status(500).json({ status: false, message: error?.message || msgHelper.msg('MSG002'), error: error.message });

@@ -12,12 +12,12 @@ UserCV.init({
   templateID: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    references: {
-      model: 'CVTemplate',
-      key: 'templateID',
-    },
-    onUpdate: 'CASCADE',
-    onDelete: 'CASCADE',
+    // references: {
+    //   model: 'CVTemplate',
+    //   key: 'templateID',
+    // },
+    // onUpdate: 'CASCADE',
+    // onDelete: 'CASCADE',
   },
   userData: {
     type: DataTypes.TEXT('long'),
@@ -60,6 +60,11 @@ UserCV.init({
   modelName: 'UserCV',
   tableName: 'userCVs',
   timestamps: true,
+
 });
 
+
+
 module.exports = UserCV;
+
+

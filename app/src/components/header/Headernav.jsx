@@ -6,51 +6,55 @@ import { Link, useNavigate } from 'react-router-dom'
 import './nav.scss'
 
 export default function Headernav(props) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
-  // const token = localStorage.getItem('token')
 
-
-  // setIsLoggedIn(true);
+  const [token, setToken] = useState('')
 
   useEffect(() => {
-    if (!props.user) {
-      setIsLoggedIn(false);
-      navigate('/')
+    let userToken = localStorage.getItem('token')
+    if (!userToken && props.auth) {
+      console.log('token found', userToken)
+      navigate('/login')
     }
-  }, [props.user])
-  const logout = () => {
-    localStorage.clear();
-    navigate('/');
-  }
+    if (userToken && !props.auth) {
+      setToken(userToken)
+      navigate('/user/dashboard')
+    }
+  }, [token, props])
+
+
+  // const token = localStorage.getItem('token')
+  // setIsLoggedIn(true);
+
+  // console.log('header props', props)
+  // useEffect(() => {
+  //   if (props.user) {
+  //     navigate('/user/dashboard')
+  //   }
+  // }, [props.user])
+
   return (
     <Navbar className='navbar' data-bs-theme='dark'>
       <Container>
         <Navbar.Brand>
-          <Link to={props.user ? '/user/dashboard' : '/'} className='navbar-brand'>
+          <Link to={'/'} className='navbar-brand'>
             Neo_CV
           </Link>
         </Navbar.Brand>
-        {props.user ? (
-          <Nav className='ml-auto'>
-            <NavLink onClick={logout}>
-              Logout
-            </NavLink>
-          </Nav>
-        ) : (
-          <Nav className='ml-auto'>
-            <NavLink>
-              <Link to={'/login'} className='nav-link'>
-                Login
-              </Link>
-            </NavLink>
-            <NavLink>
-              <Link to={'/register'} className='nav-link'>
-                Register
-              </Link>
-            </NavLink>
-          </Nav>
-        )}
+
+        <Nav className='ml-auto'>
+          <NavLink>
+            <Link to={'/login'} className='nav-link'>
+              Login
+            </Link>
+          </NavLink>
+          <NavLink>
+            <Link to={'/register'} className='nav-link'>
+              Register
+            </Link>
+          </NavLink>
+        </Nav>
+
       </Container>
     </Navbar>
   )

@@ -21,6 +21,10 @@ UserResume.init(
         userID: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            references: {
+                model: 'User',
+                key: 'userID',
+            }
         },
         // below is the template id for styling
         resumeID: {
@@ -28,8 +32,12 @@ UserResume.init(
             allowNull: false,
             defaultValue: 1
         },
+        // userData: {
+        //     type: DataTypes.TEXT,
+        //     allowNull: true,
+        // },
         userData: {
-            type: DataTypes.TEXT,
+            type: DataTypes.JSON,
             allowNull: true,
         },
         createdAt: {

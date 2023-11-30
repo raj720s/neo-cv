@@ -15,7 +15,6 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const authRouting = require("./routes/authRouting");
 const app = express();
-
 require("dotenv").config(); //instatiate environment variables
 
 app.use(
@@ -46,8 +45,8 @@ app.use(cors());
  */
 
 const CONFIG = require("./configs/config.js");
-const { verifyToken } = require("./helpers/helper");
-const resumerouter = require("./routes/resumeRoutes");
+const { verifyToken } = require("./helpers/helper.js");
+const resumerouter = require("./routes/resumeRoutes.js");
 
 console.log("Environment:", CONFIG.ENVIRONMENT);
 
