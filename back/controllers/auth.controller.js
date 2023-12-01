@@ -147,40 +147,40 @@ module.exports.login = (req, res) => {
     });
 }
 
-/**
- * @api {post} /auth/get-user Get User
- * @apiName Get User
- * @apiGroup Auth
- * @apiHeader {String} Authorization Authorization token
- * @apiSuccess {Boolean} status Status of the request.
- * @apiSuccess {String} message Message of the request.
-**/
+// /**
+//  * @api {post} /auth/get-user Get User
+//  * @apiName Get User
+//  * @apiGroup Auth
+//  * @apiHeader {String} Authorization Authorization token
+//  * @apiSuccess {Boolean} status Status of the request.
+//  * @apiSuccess {String} message Message of the request.
+// **/
 
-module.exports.getUser = async (req, res) => {
+// module.exports.getUser = async (req, res) => {
 
-    try {
-        const userData = req.authData.user
+//     try {
+//         const userData = req.authData.user
 
-        if (helper.isEmpty(userData)) return res.status(401).json({ status: false, message: msgHelper.msg('MSG007') });
+//         if (helper.isEmpty(userData)) return res.status(401).json({ status: false, message: msgHelper.msg('MSG007') });
 
-        let info = {}
-        info.columns = ['userID', 'email']
-        info.where = { userID: userData.userID }
-        info.table = 'users'
-
-
-        let userDetail = await UserModel.findOne({ where: info.where, attributes: info.columns })
+//         let info = {}
+//         info.columns = ['userID', 'email']
+//         info.where = { userID: userData.userID }
+//         info.table = 'users'
 
 
-        if (helper.isEmpty(userDetail)) return res.status(500).json({ status: false, message: msgHelper.msg('MSG006'), error: userDetail });
+//         let userDetail = await UserModel.findOne({ where: info.where, attributes: info.columns })
 
-        if (helper.isEmpty(userDetail.dataValues)) return res.status(200).json({ status: false, message: msgHelper.msg('MSG006') });
 
-        res.status(200).json({ status: true, message: msgHelper.msg('MSG011'), data: userDetail.dataValues });
-    } catch (error) {
-        res.status(500).json({ status: false, message: msgHelper.msg('MSG002'), error: error.message });
-    }
-}
+//         if (helper.isEmpty(userDetail)) return res.status(500).json({ status: false, message: msgHelper.msg('MSG006'), error: userDetail });
+
+//         if (helper.isEmpty(userDetail.dataValues)) return res.status(200).json({ status: false, message: msgHelper.msg('MSG006') });
+
+//         res.status(200).json({ status: true, message: msgHelper.msg('MSG011'), data: userDetail.dataValues });
+//     } catch (error) {
+//         res.status(500).json({ status: false, message: msgHelper.msg('MSG002'), error: error.message });
+//     }
+// }
 
 
 

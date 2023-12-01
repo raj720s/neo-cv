@@ -1,15 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './login.scss'
 import { Button } from 'react-bootstrap'
 import axiosIntance from '../../utils/Axios';
 import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify';
+import { GoogleLogin } from 'react-google-login'
+const clientID = import.meta.VITE_GOOGLE_CLIENT_ID
 
 function Login() {
+
   const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('')
+
+
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -27,8 +32,11 @@ function Login() {
   }
 
   const google = () => {
-    window.open("http://localhost:3500/api/auth/google/callback", "_self");
+    window.open("http://localhost:3500/auth/google/callback", "_self");
+
+
   };
+
 
 
   return (
@@ -55,9 +63,7 @@ function Login() {
           <Button variant='danger ' onClick={google}>
             <i className='fa-brands fa-google'></i> Login with Google
           </Button>
-          {/* <Button variant='primary ' onClick={googl}>
-            <i className='fa-brands fa-facebook'></i> Login with Facebook
-          </Button> */}
+
         </div>
       </div>
     </div>

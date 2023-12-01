@@ -1,6 +1,6 @@
 const passport = require('passport');
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = require('./configs/config');
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const GoogleStrategy = require("passport-google-oauth2").Strategy;
 
 
 passport.use(
@@ -8,10 +8,11 @@ passport.use(
         {
             clientID: GOOGLE_CLIENT_ID,
             clientSecret: GOOGLE_CLIENT_SECRET,
-            callbackURL: "/api/auth/google/callback",
+            callbackURL: "http://localhost:3500/auth/google/callback",
             scope: ["profile", "email"],
+            passReqToCallback: true
         },
-        function (accessToken, refreshToken, profile, done) {
+        function (req, accessToken, refreshToken, profile, done) {
             // done(null, profile);
             console.log(accessToken);
             console.log(refreshToken);
@@ -28,3 +29,4 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
     done(null, user);
 });
+

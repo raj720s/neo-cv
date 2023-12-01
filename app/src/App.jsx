@@ -14,7 +14,6 @@ const Userlayout = lazy(() => import('./components/Userlayout'));
 const TemplateLayout = lazy(() => import('./pages/ResumeLayout/TemplateLayout'));
 const CreateResume = lazy(() => import('./pages/createResume/CreateResume'));
 
-import { useState } from 'react'
 
 function App() {
 
@@ -32,7 +31,6 @@ function App() {
           <Route path='/user/create/:tempID' element={<CreateResume />} />
           <Route path='/user/edit/:resumeID' element={<CreateResume />} />
         </Route>
-
       </>
     )
   )

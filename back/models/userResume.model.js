@@ -32,12 +32,8 @@ UserResume.init(
             allowNull: false,
             defaultValue: 1
         },
-        // userData: {
-        //     type: DataTypes.TEXT,
-        //     allowNull: true,
-        // },
         userData: {
-            type: DataTypes.JSON,
+            type: DataTypes.TEXT,
             allowNull: true,
         },
         createdAt: {
