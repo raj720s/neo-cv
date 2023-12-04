@@ -4,17 +4,19 @@ import { Button } from 'react-bootstrap'
 import axiosIntance from '../../utils/Axios';
 import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'react-toastify';
-import { GoogleLogin } from 'react-google-login'
-const clientID = import.meta.VITE_GOOGLE_CLIENT_ID
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Login() {
+  const { user, loginWithRedirect, isAuthenticated } = useAuth0()
 
   const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('')
 
-
+  // console.log({
+  //   user, isAuthenticated
+  // })
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -31,10 +33,10 @@ function Login() {
     })
   }
 
-  const google = () => {
-    window.open("http://localhost:3500/auth/google/callback", "_self");
+  const google = (e) => {
+    // window.open("http://localhost:3500/auth/google/callback", "_self");
 
-
+    loginWithRedirect()
   };
 
 

@@ -14,8 +14,35 @@ const Userlayout = lazy(() => import('./components/Userlayout'));
 const TemplateLayout = lazy(() => import('./pages/ResumeLayout/TemplateLayout'));
 const CreateResume = lazy(() => import('./pages/createResume/CreateResume'));
 
+import { useAuth0 } from "@auth0/auth0-react";
+import axiosIntance from './utils/Axios';
+import { toast } from 'react-toastify';
 
 function App() {
+  const { user, loginWithRedirect, isAuthenticated } = useAuth0()
+
+  console.log({
+    user, isAuthenticated
+  })
+  useEffect(() => {
+    if (isAuthenticated) {
+      // psw-less login 
+      const data = {
+        email: user.email,
+      }
+      axiosIntance.post('/auth/user-login', data).then(res => {
+        console.log(res.data)
+        localStorage.setItem('token', res.data.token)
+        return window.location.href = '/user/dashboard'
+      }).catch(e => {
+        toast.error(e.message || 'login failed', {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      })
+    }
+  }, [isAuthenticated])
+
+
 
   const router = createBrowserRouter(
     createRoutesFromElements(

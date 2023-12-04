@@ -9,7 +9,7 @@ function Register() {
     return (
         <div className='login-container'>
             <RegisterFormik />
-            <div className='auth-container'>
+            {/* <div className='auth-container'>
                 <p>or</p>
                 <Button variant='danger '>
                     <i className='fa-brands fa-google'></i> Login with Google
@@ -17,7 +17,7 @@ function Register() {
                 <Button variant='primary '>
                     <i className='fa-brands fa-facebook'></i> Login with Facebook
                 </Button>
-            </div>
+            </div> */}
         </div>
 
     )

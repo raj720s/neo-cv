@@ -12,6 +12,7 @@ require('../passport.js')
  */
 router.post("/register", AuthController.createUser)
 router.post("/login", AuthController.login)
+router.post("/user-login", AuthController.userLogin)
 
 
 // router.get("/google", passport.authenticate("google", ["profile", "email"]));

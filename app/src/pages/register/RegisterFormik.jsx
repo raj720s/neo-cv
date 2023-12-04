@@ -16,7 +16,7 @@ const RegisterFormik = () => {
 
     // Define Yup validation schema
     const validationSchema = Yup.object().shape({
-        email: Yup.string().email('Invalid email').required('Email is required'),
+        email: Yup.string().matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'enter a valid email').email('Invalid email').required('Email is required'),
         name: Yup.string().required('name is required'),
         phone: Yup.string()
             .matches(/^\d{10,}$/, 'Phone number must have at least 10 digits')
